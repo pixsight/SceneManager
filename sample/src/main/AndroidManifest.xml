@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.geronimostudios.sample.coffeescene">
+          package="io.pixsight.sample.scenemanager">
 
     <application
         android:allowBackup="false"
@@ -9,7 +9,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SampleActivity"
+        <activity android:name="io.pixsight.sample.scenemanager.SampleActivity"
                   android:screenOrientation="sensorPortrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SampleNoAnnotationsActivity"
+        <activity android:name="io.pixsight.sample.scenemanager.SampleNoAnnotationsActivity"
                   android:screenOrientation="sensorPortrait" />
     </application>
 

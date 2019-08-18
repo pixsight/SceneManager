@@ -1,0 +1,134 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+String library_version = '1.0.2'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 4
+        versionName library_version
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "androidx.core:core-ktx:1.0.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError = false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions {
+    doLast {
+        println project.getConvention()
+    }
+}
+
+group = 'io.pixsight.scenemanager' //bintray org/group name
+version = library_version //version
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'BuildScenes'
+            description 'A scene manager for Android'
+            url 'https://github.com/pixsight/BuildScenes'
+
+            packaging 'aar'
+            groupId 'io.pixsight.scenemanager'
+            artifactId 'scenemanager'
+            version library_version
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection 'https://github.com/pixsight/BuildScenes.git'
+                url 'https://github.com/pixsight/BuildScenes'
+
+            }
+            developers {
+                developer {
+                    id 'pixsight'
+                    name 'Jérôme Caudoux'
+                    email 'jerome@pixsight.io'
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives'] //When uploading configuration files
+
+    dryRun = false //[Default: false] Whether to run this as dry-run, without deploying
+    publish = true //[Default: false] Whether version should be auto published after an upload
+    override = true //[Default: false] Whether to override version artifacts already published
+
+    pkg {
+        repo = 'pixsight'
+        name = 'io.pixsight.scenemanager'
+        userOrg = 'pixsight'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/pixsight/BuildScenes.git'
+        issueTrackerUrl = 'https://github.com/pixsight/BuildScenes/issues'
+        websiteUrl = 'https://pixsight.io'
+        labels = ['android', 'layout', 'view', 'scene', 'transition', 'animation']
+        publicDownloadNumbers = true
+        version {
+            vcsTag = library_version
+            name = library_version
+            desc = 'A scene manager for Android'
+
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.passphrase") // The passphrase for GPG signing'
+            }
+        }
+    }
+}
+repositories {
+    mavenCentral()
+}

@@ -1,21 +1,12 @@
-# CoffeeScene-Android
+# SceneManager-Android
 
 A simple scene manager for Android.<br>
-CoffeeScene allows to switch the current scene of an Activity, ViewGroup and Fragment (v4 supported).<br>
-This library can be usefull if you want to switch from a spinner loader to your main content or a placeholder for example.
-
-Sample app
-=======
-The sample app is available in this repository under **sample/**.<br>
-You can also try it on Google Play : https://play.google.com/store/apps/details?id=com.geronimostudios.sample.coffeescene
-
-Gradle
-=======
-Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F1.0.2%2Fcoffeescene-1.0.2.aar) :
+SceneManager allows to switch the current scene of an Activity, ViewGroup and Fragment (v4 supported).<br>
+This library can be useful if you want to switch from a spinner loader to your main content or a placeholder for example.
 
 ```groovy
 dependencies {
-    implementation 'com.geronimostudios.coffeescene:coffeescene:1.0.2'
+    implementation 'io.pixsight.scenemanager:scenemanager:1.0.2'
 }
 ```
 
@@ -60,7 +51,7 @@ You have to declare your **scenes** in your activity, viewgroup or fragment.
 Each scene requires an unique identifier (sceneId) and a valid layout resource.
 
 ```java
-@CoffeeScene({
+@BuildScenes({
         @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
         @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor), // you can add many layouts to the same scene id.
         @Scene(scene = Scene.SPINNER, layout = R.layout.loader),
@@ -134,7 +125,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 Full example
 ------------------------
 ```java
-@CoffeeScene(
+@BuildScenes(
         value = {
                 @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
                 @Scene(scene = Scene.SPINNER, layout = R.layout.loader),
@@ -181,7 +172,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 License
 ======
 ```
-Copyright (C) 2018 Geronimo
+Copyright (C) 2019 PixSight
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -8,9 +8,10 @@
     <ImageView
         android:layout_margin="@dimen/default_padding"
         android:layout_gravity="center_horizontal"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/pixsight_red"
         tools:ignore="ContentDescription"/>
 
     <FrameLayout
@@ -48,8 +49,9 @@
         android:id="@+id/activity_no_annotations_sample_main_content_another_view"
         android:layout_margin="@dimen/default_padding"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/pixsight_red"
         tools:ignore="ContentDescription"/>
 </FrameLayout>

@@ -1,1 +1,1 @@
-include ':sample', ':coffeescene'
+include ':sample', ':scenemanager'
