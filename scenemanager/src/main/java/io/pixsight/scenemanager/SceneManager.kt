@@ -21,11 +21,11 @@ import java.util.*
 
 /**
  *
- * The [BuildScenes] is used to initialize an [Activity],
+ * The [SceneManager] is used to initialize an [Activity],
  * [ViewGroup], [android.app.Fragment] or
  * [androidx.fragment.app.Fragment] annotated with [BuildScenes].
  *
- * [BuildScenes] is also used to switch the scenes.
+ * [SceneManager] is also used to switch the scenes.
  */
 object SceneManager {
 

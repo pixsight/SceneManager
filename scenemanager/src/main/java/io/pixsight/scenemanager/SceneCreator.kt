@@ -18,7 +18,7 @@ import java.util.*
  *
  *
  * Example:
- * BuildScenes.create(
+ * SceneManager.create(
  * SceneCreator.with(this)
  * .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
  * .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)

@@ -62,9 +62,9 @@ version = library_version //version
 install {
     repositories.mavenInstaller {
         pom.project {
-            name 'BuildScenes'
+            name 'SceneManager'
             description 'A scene manager for Android'
-            url 'https://github.com/pixsight/BuildScenes'
+            url 'https://github.com/pixsight/SceneManager'
 
             packaging 'aar'
             groupId 'io.pixsight.scenemanager'
@@ -79,8 +79,8 @@ install {
                 }
             }
             scm {
-                connection 'https://github.com/pixsight/BuildScenes.git'
-                url 'https://github.com/pixsight/BuildScenes'
+                connection 'https://github.com/pixsight/SceneManager.git'
+                url 'https://github.com/pixsight/SceneManager'
 
             }
             developers {
@@ -108,12 +108,12 @@ bintray {
     override = true //[Default: false] Whether to override version artifacts already published
 
     pkg {
-        repo = 'pixsight'
+        repo = 'SceneManager'
         name = 'io.pixsight.scenemanager'
         userOrg = 'pixsight'
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/pixsight/BuildScenes.git'
-        issueTrackerUrl = 'https://github.com/pixsight/BuildScenes/issues'
+        vcsUrl = 'https://github.com/pixsight/SceneManager.git'
+        issueTrackerUrl = 'https://github.com/pixsight/SceneManager/issues'
         websiteUrl = 'https://pixsight.io'
         labels = ['android', 'layout', 'view', 'scene', 'transition', 'animation']
         publicDownloadNumbers = true
