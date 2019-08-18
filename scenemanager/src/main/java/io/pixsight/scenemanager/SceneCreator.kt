@@ -53,7 +53,7 @@ class SceneCreator private constructor(internal val reference: Any, private val 
     }
 
     /**
-     * Add a listener. See [Listener] and [SceneManagerListenerAdapter].
+     * Add a listener. See [Listener] and [SceneListenerAdapter].
      *
      * @param listener the new listener
      * @return a [SceneCreator] for more configurations.

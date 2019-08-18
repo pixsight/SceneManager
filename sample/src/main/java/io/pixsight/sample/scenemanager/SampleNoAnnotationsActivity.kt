@@ -8,7 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import io.pixsight.scenemanager.SceneCreator
 import io.pixsight.scenemanager.SceneManager
-import io.pixsight.scenemanager.SceneManagerListenerAdapter
+import io.pixsight.scenemanager.SceneListenerAdapter
 import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.annotations.Scene
 import kotlinx.android.synthetic.main.activity_no_annotations_sample.*
@@ -27,7 +27,7 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .first(Scene.MAIN)
                         .animation(SceneAnimations.TRANSLATE_X)
-                        .listener(object : SceneManagerListenerAdapter() {
+                        .listener(object : SceneListenerAdapter() {
                             override fun onSceneChanged(sceneId: Int) {
                                 Log.d("SceneListener", "New scene $sceneId")
                             }
