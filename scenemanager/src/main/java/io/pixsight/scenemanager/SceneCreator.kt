@@ -7,10 +7,8 @@ import android.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.core.util.Pair
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.ScenesParams
-import java.util.*
 
 /**
  *
@@ -27,18 +25,13 @@ import java.util.*
  * );
  */
 class SceneCreator private constructor(internal val reference: Any, private val mRootView: ViewGroup) {
-    internal var listener: Listener? = null
+    internal var listener: SceneListener? = null
         private set
     internal var adapter: AnimationAdapter<ScenesParams>? = null
         private set
-    internal var firstSceneId: Int = 0
+    internal var firstSceneId: Int = -1
         private set
-    internal val scenes: MutableList<Pair<Int, View>>
-
-    init {
-        scenes = ArrayList()
-        firstSceneId = -1
-    }
+    internal val scenes: MutableList<Pair<Int, View>> = mutableListOf()
 
     /**
      * Change the animation adapter.
@@ -53,12 +46,12 @@ class SceneCreator private constructor(internal val reference: Any, private val 
     }
 
     /**
-     * Add a listener. See [Listener] and [SceneListenerAdapter].
+     * Add a listener. See [SceneListener].
      *
      * @param listener the new listener
      * @return a [SceneCreator] for more configurations.
      */
-    fun listener(listener: Listener?): SceneCreator {
+    fun listener(listener: SceneListener?): SceneCreator {
         this.listener = listener
         return this
     }
@@ -81,10 +74,7 @@ class SceneCreator private constructor(internal val reference: Any, private val 
      * @param view the view associated the the sceneId.
      * @return a [SceneCreator] for more configurations.
      */
-    fun add(sceneId: Int, view: View?): SceneCreator {
-        if (view == null) {
-            throw NullPointerException("Invalid view scene. (view == null")
-        }
+    fun add(sceneId: Int, view: View): SceneCreator {
         scenes.add(Pair(sceneId, view))
         return this
     }
@@ -145,14 +135,11 @@ class SceneCreator private constructor(internal val reference: Any, private val 
          */
         @Suppress("DEPRECATION")
         fun with(fragment: Fragment): SceneCreator {
-            return if (fragment.view != null) {
-                SceneCreator(
-                        fragment,
-                        (fragment.view as ViewGroup?)!!
-                )
-            } else {
-                throw NullPointerException("fragment.getView() == null")
-            }
+            fragment.view ?: throw NullPointerException("fragment.getView() == null")
+            return SceneCreator(
+                    fragment,
+                    (fragment.view as ViewGroup?)!!
+            )
         }
 
         /**
@@ -165,14 +152,11 @@ class SceneCreator private constructor(internal val reference: Any, private val 
          * @return a [SceneCreator] for more configurations.
          */
         fun with(fragment: androidx.fragment.app.Fragment): SceneCreator {
-            return if (fragment.view != null) {
-                SceneCreator(
-                        fragment,
-                        (fragment.view as ViewGroup?)!!
-                )
-            } else {
-                throw NullPointerException("fragment.getView() == null")
-            }
+            fragment.view ?: throw NullPointerException("fragment.getView() == null")
+            return SceneCreator(
+                    fragment,
+                    (fragment.view as ViewGroup?)!!
+            )
         }
 
         /**

@@ -19,20 +19,13 @@ import kotlinx.android.synthetic.main.spinner.view.*
         ],
         first = Scene.MAIN
 )
-class SampleView : FrameLayout, View.OnClickListener {
-    constructor(context: Context) : super(context) {
-        init()
-    }
+class SampleView @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
+    init {
         SceneManager.create(this)
 
         sample_switch_to_main.setOnClickListener(this)

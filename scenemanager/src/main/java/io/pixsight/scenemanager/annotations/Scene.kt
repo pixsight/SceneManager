@@ -20,7 +20,8 @@ annotation class Scene(
         /**
          * The [LayoutRes] that will be inflated for this scene
          */
-        @LayoutRes val layout: Int) {
+        @LayoutRes val layout: Int
+) {
 
     companion object {
         /**

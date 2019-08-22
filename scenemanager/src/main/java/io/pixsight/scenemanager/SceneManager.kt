@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.util.Pair
+import androidx.core.util.forEach
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.animations.ScenesParams
@@ -227,7 +227,7 @@ object SceneManager {
     fun create(creator: SceneCreator) {
         // Save the scene's meta data
         val adapter = creator.adapter
-        sScenesMeta.add(Pair.create(
+        sScenesMeta.add(Pair(
                 WeakReference(creator.reference),
                 ScenesMeta(
                         adapter ?: SceneAnimations.FADE,
@@ -307,7 +307,7 @@ object SceneManager {
     /**
      * Parse the annotation [BuildScenes], of an reference.
      * Creates the scenes and add them into a view group.
-     * Save the metadata of those scenes into [BuildScenes.sScenesMeta].
+     * Save the metadata of those scenes into [SceneManager.sScenesMeta].
      *
      * @param context Holding context for the inflater
      * @param reference The associated activity, view or fragments that has a [BuildScenes]
@@ -320,7 +320,7 @@ object SceneManager {
                          reference: Any,
                          adapter: AnimationAdapter<ScenesParams>?,
                          root: ViewGroup,
-                         listener: Listener?): ViewGroup {
+                         listener: SceneListener?): ViewGroup {
         var animationAdapter = adapter
         // Retrieve annotations
         val setup = safeGetSetup(reference)
@@ -331,14 +331,14 @@ object SceneManager {
             animationAdapter = SceneAnimations.FADE
         }
         val inflater = LayoutInflater.from(context)
-        for (scene in scenes) {
+        scenes.forEach { scene ->
             val view = inflater.inflate(scene.layout, root, false)
             root.addView(view)
         }
 
         // Save the scene's meta data
         val meta = ScenesMeta(root, animationAdapter, scenes, listener)
-        sScenesMeta.add(Pair.create(
+        sScenesMeta.add(Pair(
                 WeakReference(reference),
                 meta
         ))
@@ -458,40 +458,31 @@ object SceneManager {
 
     private fun getValidFirstScene(setup: BuildScenes, scenes: Array<out Scene>): Int {
         val firstScene = setup.first
-        for (scene in scenes) {
-            if (scene.scene == firstScene) {
-                return firstScene // the default scene specified by the user is valid
-            }
-        }
-        return scenes[0].scene // the default scene is not valid
+        // the default scene specified by the user is valid
+        return scenes.firstOrNull { it.scene == firstScene }?.scene
+        // the default scene is not valid
+                ?: scenes[0].scene
     }
 
-    private fun safeGetSetup(`object`: Any): BuildScenes? {
-        val objClass = `object`.javaClass
+    private fun safeGetSetup(obj: Any): BuildScenes? {
+        val objClass = obj.javaClass
         if (!objClass.isAnnotationPresent(BuildScenes::class.java)) {
             throw RuntimeException("Annotation @BuildScenes is missing")
         }
         return objClass.getAnnotation(BuildScenes::class.java)
     }
 
-    private fun safeGetMetaData(`object`: Any): ScenesMeta? {
-        val node = safeGetMetaPair(`object`)
+    private fun safeGetMetaData(obj: Any): ScenesMeta? {
+        val node = safeGetMetaPair(obj)
         return node?.second
     }
 
-    private fun safeGetMetaPair(`object`: Any): Pair<WeakReference<Any>, ScenesMeta>? {
-        for (pair in sScenesMeta) {
-            if (pair.first != null) {
-                if (pair.first!!.get() == `object`) {
-                    return pair
-                }
-            }
-        }
-        return null
+    private fun safeGetMetaPair(obj: Any): Pair<WeakReference<Any>, ScenesMeta>? {
+        return sScenesMeta.firstOrNull { (ref, _) -> ref.get() == obj }
     }
 
-    private fun doChangeScene(`object`: Any, sceneId: Int, animate: Boolean = true) {
-        val meta = safeGetMetaData(`object`) ?: return
+    private fun doChangeScene(obj: Any, sceneId: Int, animate: Boolean = true) {
+        val meta = safeGetMetaData(obj) ?: return
         val scenesIdsToViews = meta.scenesIdsToViews
 
         meta.sceneAnimationAdapter
@@ -500,23 +491,21 @@ object SceneManager {
         notifyListener(scenesIdsToViews, sceneId, meta.listener)
     }
 
-    private fun notifyListener(scenesIdsToViews: SparseArray<MutableList<View>>,
-                               sceneId: Int,
-                               listener: Listener?) {
-
-        for (i in 0 until scenesIdsToViews.size()) {
-            val viewSceneId = scenesIdsToViews.keyAt(i)
+    private fun notifyListener(
+            scenesIdsToViews: SparseArray<MutableList<View>>,
+            sceneId: Int,
+            listener: SceneListener?
+    ) {
+        listener ?: return // nothing to do if no listener
+        scenesIdsToViews.forEach { viewSceneId, _ ->
             val show = viewSceneId == sceneId
 
-            if (listener != null) {
-                if (show) {
-                    listener.onSceneDisplayed(sceneId)
-                } else {
-                    listener.onSceneHidden(sceneId)
-                }
+            if (show) {
+                listener.onSceneDisplayed(sceneId)
+            } else {
+                listener.onSceneHidden(sceneId)
             }
         }
-
-        listener?.onSceneChanged(sceneId)
+        listener.onSceneChanged(sceneId)
     }
 }
