@@ -7,37 +7,29 @@ import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import androidx.core.util.forEach
+import androidx.core.view.isVisible
 
-class TranslateXAnimationAdapter : AnimationAdapter<TranslateScenesParams> {
+class TranslateXAnimationAdapter(
+        private val interpolator: TimeInterpolator? = DecelerateInterpolator(),
+        private val animationDuration: Int = 200
+) : AnimationAdapter<TranslateScenesParams> {
 
     private val dummyAnimationListener = object : AnimatorListenerAdapter() {}
-    private var interpolator: TimeInterpolator? = null
-    private var animationDuration: Int = 0
-
-    internal constructor() {
-        animationDuration = 200
-        interpolator = DecelerateInterpolator()
-    }
-
-    constructor(interpolator: TimeInterpolator?,
-                animationDuration: Int) {
-        this.interpolator = interpolator
-        this.animationDuration = animationDuration
-    }
 
     override fun generateScenesParams(scenes: SparseArray<MutableList<View>>): TranslateScenesParams? {
         return TranslateScenesParams(scenes)
     }
 
-    override fun doChangeScene(scenesIdsToViews: SparseArray<MutableList<View>>,
-                               scenesParams: TranslateScenesParams?,
-                               sceneId: Int,
-                               animate: Boolean) {
-        var shouldTranslate = animate
-        if (scenesParams == null) {
-            throw NullPointerException("Scenes params are null")
-        }
+    override fun doChangeScene(
+            scenesIdsToViews: SparseArray<MutableList<View>>,
+            scenesParams: TranslateScenesParams?,
+            sceneId: Int,
+            animate: Boolean
+    ) {
+        scenesParams ?: throw NullPointerException("Scenes params are null")
 
+        var shouldTranslate = animate
         var lastScenePosition = 0
         if (!scenesParams.hasValidLastSceneId()) {
             shouldTranslate = false
@@ -47,21 +39,18 @@ class TranslateXAnimationAdapter : AnimationAdapter<TranslateScenesParams> {
         val scenePosition = scenesParams.positionOf(sceneId)
         val currentSceneViews = scenesIdsToViews.get(sceneId)
 
-        for (i in 0 until scenesIdsToViews.size()) {
+        scenesIdsToViews.forEach { viewSceneId, views ->
             // do change scene
-            val viewSceneId = scenesIdsToViews.keyAt(i)
-            val views = scenesIdsToViews.get(viewSceneId)
-
             // If the scene is not displayed nor to be animated
             if (viewSceneId != sceneId && viewSceneId != scenesParams.lastSceneId) {
                 allGone(views, currentSceneViews)
-                continue
+                return@forEach
             }
 
             val isNewScene = viewSceneId == sceneId
             if (!shouldTranslate) {
                 showOrHideWithoutAnimations(isNewScene, views)
-                continue
+                return@forEach
             }
 
             if (scenePosition < lastScenePosition) {
@@ -75,86 +64,79 @@ class TranslateXAnimationAdapter : AnimationAdapter<TranslateScenesParams> {
         scenesParams.lastSceneId = sceneId
     }
 
-    private fun showOrHideWithoutAnimations(isNewScene: Boolean, views: List<View>) {
-        for (view in views) {
-            if (isNewScene) {
-                view.translationX = 0f
+    private fun showOrHideWithoutAnimations(
+            isNewScene: Boolean,
+            views: List<View>
+    ) = views.forEach { view ->
+        if (isNewScene) {
+            view.translationX = 0f
+        }
+        view.isVisible = isNewScene
+    }
+
+    private fun doLeftToRight(isNewScene: Boolean, views: List<View>) = views.forEach { view ->
+        view.clearAnimation()
+        val parentWidth = (view.parent as ViewGroup).width
+        if (isNewScene) {
+            if (!view.isVisible) {
                 view.visibility = View.VISIBLE
-            } else {
-                view.visibility = View.GONE
+                view.translationX = (-parentWidth).toFloat()
             }
+            view.animate()
+                    .translationX(0f)
+                    .setDuration(animationDuration.toLong())
+                    .setInterpolator(interpolator)
+                    .setListener(dummyAnimationListener)
+        } else {
+            if (!view.isVisible) {
+                view.visibility = View.VISIBLE
+                view.translationX = 0f
+            }
+            view.animate()
+                    .translationX(parentWidth.toFloat())
+                    .setDuration(animationDuration.toLong())
+                    .setInterpolator(interpolator)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            view.visibility = View.GONE
+                        }
+                    })
         }
     }
 
-    private fun doLeftToRight(isNewScene: Boolean, views: List<View>) {
-        for (view in views) {
-            view.clearAnimation()
-            val parentWidth = (view.parent as ViewGroup).width
-            if (isNewScene) {
-                if (view.visibility == View.GONE) {
-                    view.visibility = View.VISIBLE
-                    view.translationX = (-parentWidth).toFloat()
-                }
-                view.animate()
-                        .translationX(0f)
-                        .setDuration(animationDuration.toLong())
-                        .setInterpolator(interpolator)
-                        .setListener(dummyAnimationListener)
-            } else {
-                if (view.visibility == View.GONE) {
-                    view.visibility = View.VISIBLE
-                    view.translationX = 0f
-                }
-                view.animate()
-                        .translationX(parentWidth.toFloat())
-                        .setDuration(animationDuration.toLong())
-                        .setInterpolator(interpolator)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                view.visibility = View.GONE
-                            }
-                        })
+    private fun doRightToLeft(isNewScene: Boolean, views: List<View>) = views.forEach { view ->
+        view.clearAnimation()
+        val parentWidth = (view.parent as ViewGroup).width
+        if (isNewScene) {
+            if (!view.isVisible) {
+                view.visibility = View.VISIBLE
+                view.translationX = parentWidth.toFloat()
             }
+            view.animate()
+                    .translationX(0f)
+                    .setDuration(animationDuration.toLong())
+                    .setInterpolator(interpolator)
+                    .setListener(dummyAnimationListener)
+        } else {
+            if (!view.isVisible) {
+                view.visibility = View.VISIBLE
+                view.translationX = 0f
+            }
+            view.animate()
+                    .translationX((-parentWidth).toFloat())
+                    .setDuration(animationDuration.toLong())
+                    .setInterpolator(interpolator)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            view.visibility = View.GONE
+                        }
+                    })
         }
     }
 
-    private fun doRightToLeft(isNewScene: Boolean, views: List<View>) {
-        for (view in views) {
-            view.clearAnimation()
-            val parentWidth = (view.parent as ViewGroup).width
-            if (isNewScene) {
-                if (view.visibility == View.GONE) {
-                    view.visibility = View.VISIBLE
-                    view.translationX = parentWidth.toFloat()
-                }
-                view.animate()
-                        .translationX(0f)
-                        .setDuration(animationDuration.toLong())
-                        .setInterpolator(interpolator)
-                        .setListener(dummyAnimationListener)
-            } else {
-                if (view.visibility == View.GONE) {
-                    view.visibility = View.VISIBLE
-                    view.translationX = 0f
-                }
-                view.animate()
-                        .translationX((-parentWidth).toFloat())
-                        .setDuration(animationDuration.toLong())
-                        .setInterpolator(interpolator)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                view.visibility = View.GONE
-                            }
-                        })
-            }
-        }
-    }
-
-    private fun allGone(views: List<View>, forceShowIfHidden: List<View>?) {
-        for (view in views) {
-            if (forceShowIfHidden == null || !forceShowIfHidden.contains(view)) {
-                view.visibility = View.GONE
-            }
+    private fun allGone(views: List<View>, forceShowIfHidden: List<View>?) = views.forEach { view ->
+        if (forceShowIfHidden == null || !forceShowIfHidden.contains(view)) {
+            view.visibility = View.GONE
         }
     }
 }

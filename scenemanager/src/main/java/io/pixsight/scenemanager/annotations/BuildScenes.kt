@@ -26,4 +26,5 @@ annotation class BuildScenes(
          * The default scene id. See [Scene.scene].
          * The [Scene] associated to this id will be the displayed first.
          */
-        val first: Int = Scene.MAIN)
+        val first: Int = Scene.MAIN
+)
