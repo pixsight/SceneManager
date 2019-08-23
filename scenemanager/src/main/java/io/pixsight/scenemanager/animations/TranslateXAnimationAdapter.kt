@@ -11,8 +11,8 @@ import androidx.core.util.forEach
 import androidx.core.view.isVisible
 
 class TranslateXAnimationAdapter(
-        private val interpolator: TimeInterpolator? = DecelerateInterpolator(),
-        private val animationDuration: Int = 200
+    private val interpolator: TimeInterpolator? = DecelerateInterpolator(),
+    private val animationDuration: Int = 200
 ) : AnimationAdapter<TranslateScenesParams> {
 
     private val dummyAnimationListener = object : AnimatorListenerAdapter() {}
@@ -22,10 +22,10 @@ class TranslateXAnimationAdapter(
     }
 
     override fun doChangeScene(
-            scenesIdsToViews: SparseArray<MutableList<View>>,
-            scenesParams: TranslateScenesParams?,
-            sceneId: Int,
-            animate: Boolean
+        scenesIdsToViews: SparseArray<MutableList<View>>,
+        scenesParams: TranslateScenesParams?,
+        sceneId: Int,
+        animate: Boolean
     ) {
         scenesParams ?: throw NullPointerException("Scenes params are null")
 
@@ -65,8 +65,8 @@ class TranslateXAnimationAdapter(
     }
 
     private fun showOrHideWithoutAnimations(
-            isNewScene: Boolean,
-            views: List<View>
+        isNewScene: Boolean,
+        views: List<View>
     ) = views.forEach { view ->
         if (isNewScene) {
             view.translationX = 0f
@@ -83,24 +83,24 @@ class TranslateXAnimationAdapter(
                 view.translationX = (-parentWidth).toFloat()
             }
             view.animate()
-                    .translationX(0f)
-                    .setDuration(animationDuration.toLong())
-                    .setInterpolator(interpolator)
-                    .setListener(dummyAnimationListener)
+                .translationX(0f)
+                .setDuration(animationDuration.toLong())
+                .setInterpolator(interpolator)
+                .setListener(dummyAnimationListener)
         } else {
             if (!view.isVisible) {
                 view.visibility = View.VISIBLE
                 view.translationX = 0f
             }
             view.animate()
-                    .translationX(parentWidth.toFloat())
-                    .setDuration(animationDuration.toLong())
-                    .setInterpolator(interpolator)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            view.visibility = View.GONE
-                        }
-                    })
+                .translationX(parentWidth.toFloat())
+                .setDuration(animationDuration.toLong())
+                .setInterpolator(interpolator)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        view.visibility = View.GONE
+                    }
+                })
         }
     }
 
@@ -113,24 +113,24 @@ class TranslateXAnimationAdapter(
                 view.translationX = parentWidth.toFloat()
             }
             view.animate()
-                    .translationX(0f)
-                    .setDuration(animationDuration.toLong())
-                    .setInterpolator(interpolator)
-                    .setListener(dummyAnimationListener)
+                .translationX(0f)
+                .setDuration(animationDuration.toLong())
+                .setInterpolator(interpolator)
+                .setListener(dummyAnimationListener)
         } else {
             if (!view.isVisible) {
                 view.visibility = View.VISIBLE
                 view.translationX = 0f
             }
             view.animate()
-                    .translationX((-parentWidth).toFloat())
-                    .setDuration(animationDuration.toLong())
-                    .setInterpolator(interpolator)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            view.visibility = View.GONE
-                        }
-                    })
+                .translationX((-parentWidth).toFloat())
+                .setDuration(animationDuration.toLong())
+                .setInterpolator(interpolator)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        view.visibility = View.GONE
+                    }
+                })
         }
     }
 

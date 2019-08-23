@@ -15,18 +15,20 @@ import kotlinx.android.synthetic.main.fragment_placeholder.*
 import kotlinx.android.synthetic.main.sample_fragment_main.*
 
 @BuildScenes(
-        value = [
-            Scene(scene = Scene.MAIN, layout = R.layout.sample_fragment_main),
-            Scene(scene = Scene.SPINNER, layout = R.layout.fragment_loader),
-            Scene(scene = Scene.PLACEHOLDER, layout = R.layout.fragment_placeholder)
-        ],
-        first = Scene.MAIN
+    value = [
+        Scene(scene = Scene.MAIN, layout = R.layout.sample_fragment_main),
+        Scene(scene = Scene.SPINNER, layout = R.layout.fragment_loader),
+        Scene(scene = Scene.PLACEHOLDER, layout = R.layout.fragment_placeholder)
+    ],
+    first = Scene.MAIN
 )
 class SampleFragment : DialogFragment(), View.OnClickListener {
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return SceneManager.create(this)
     }
 

@@ -19,19 +19,19 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_no_annotations_sample)
         SceneManager.create(
-                SceneCreator.with(this)
-                        .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
-                        .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content_another_view)
-                        .add(Scene.SPINNER, R.id.activity_no_annotations_sample_main_content_another_view)
-                        .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
-                        .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
-                        .first(Scene.MAIN)
-                        .animation(SceneAnimations.TRANSLATE_X)
-                        .listener(object : SceneListener {
-                            override fun onSceneChanged(sceneId: Int) {
-                                Log.d("SceneListener", "New scene $sceneId")
-                            }
-                        })
+            SceneCreator.with(this)
+                .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
+                .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content_another_view)
+                .add(Scene.SPINNER, R.id.activity_no_annotations_sample_main_content_another_view)
+                .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
+                .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
+                .first(Scene.MAIN)
+                .animation(SceneAnimations.TRANSLATE_X)
+                .listener(object : SceneListener {
+                    override fun onSceneChanged(sceneId: Int) {
+                        Log.d("SceneListener", "New scene $sceneId")
+                    }
+                })
         )
 
         activity_no_annotations_sample_main_content.setOnClickListener(this)
