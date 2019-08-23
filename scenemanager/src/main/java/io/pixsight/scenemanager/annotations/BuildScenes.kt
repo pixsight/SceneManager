@@ -18,13 +18,13 @@ import androidx.fragment.app.Fragment
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class BuildScenes(
-        /**
-         * The list of [Scene] that will be created.
-         */
-        vararg val value: Scene,
-        /**
-         * The default scene id. See [Scene.scene].
-         * The [Scene] associated to this id will be the displayed first.
-         */
-        val first: Int = Scene.MAIN
+    /**
+     * The list of [Scene] that will be created.
+     */
+    vararg val value: Scene,
+    /**
+     * The default scene id. See [Scene.scene].
+     * The [Scene] associated to this id will be the displayed first.
+     */
+    val first: Int = Scene.MAIN
 )

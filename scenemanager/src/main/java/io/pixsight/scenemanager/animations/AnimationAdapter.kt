@@ -36,8 +36,10 @@ interface AnimationAdapter<T : ScenesParams> {
      * false if an animation is not recommended. Ex: When the default scene is
      * displayed.
      */
-    fun doChangeScene(scenesIdsToViews: SparseArray<MutableList<View>>,
-                      scenesParams: T?,
-                      sceneId: Int,
-                      animate: Boolean)
+    fun doChangeScene(
+        scenesIdsToViews: SparseArray<MutableList<View>>,
+        scenesParams: T?,
+        sceneId: Int,
+        animate: Boolean
+    )
 }

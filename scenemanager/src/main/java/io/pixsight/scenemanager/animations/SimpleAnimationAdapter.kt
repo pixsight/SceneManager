@@ -37,10 +37,10 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
     internal abstract fun hideView(view: View, params: T?, animate: Boolean)
 
     override fun doChangeScene(
-            scenesIdsToViews: SparseArray<MutableList<View>>,
-            scenesParams: T?,
-            sceneId: Int,
-            animate: Boolean
+        scenesIdsToViews: SparseArray<MutableList<View>>,
+        scenesParams: T?,
+        sceneId: Int,
+        animate: Boolean
     ) {
         val currentSceneViews = scenesIdsToViews.get(sceneId)
 
@@ -52,11 +52,11 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
     }
 
     private fun showOrHideView(
-            show: Boolean,
-            views: List<View>,
-            forceShowIfHidden: List<View>?,
-            scenesParams: T?,
-            animate: Boolean
+        show: Boolean,
+        views: List<View>,
+        forceShowIfHidden: List<View>?,
+        scenesParams: T?,
+        animate: Boolean
     ) = views.forEach { view ->
         if (!show && forceShowIfHidden != null && forceShowIfHidden.contains(view)) {
             return@forEach // Skip an forceShowIfHidden view
@@ -65,10 +65,10 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
     }
 
     private fun showOrHideView(
-            show: Boolean,
-            views: View,
-            scenesParams: T?,
-            animate: Boolean
+        show: Boolean,
+        views: View,
+        scenesParams: T?,
+        animate: Boolean
     ) {
         if (show) {
             showView(views, scenesParams, animate)

@@ -15,11 +15,11 @@ import kotlinx.android.synthetic.main.sample_view_main.*
 import kotlinx.android.synthetic.main.spinner.*
 
 @BuildScenes(
-        Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
-        Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor),
-        Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
-        Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
-        Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view)
+    Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
+    Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor),
+    Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
+    Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
+    Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view)
 )
 class SampleActivity : FragmentActivity(), View.OnClickListener {
 

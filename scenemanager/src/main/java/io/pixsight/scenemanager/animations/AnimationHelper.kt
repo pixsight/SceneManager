@@ -14,12 +14,12 @@ object AnimationHelper {
      */
     fun showView(view: View) {
         view.animate()
-                .alpha(1f)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationStart(animation: Animator) {
-                        view.visibility = View.VISIBLE
-                    }
-                })
+            .alpha(1f)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    view.visibility = View.VISIBLE
+                }
+            })
     }
 
     /**
@@ -27,11 +27,11 @@ object AnimationHelper {
      */
     fun hideView(view: View) {
         view.animate()
-                .alpha(0f)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        view.visibility = View.GONE
-                    }
-                })
+            .alpha(0f)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    view.visibility = View.GONE
+                }
+            })
     }
 }

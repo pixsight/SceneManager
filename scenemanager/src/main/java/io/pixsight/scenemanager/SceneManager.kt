@@ -44,10 +44,10 @@ object SceneManager {
      */
     fun create(context: Context, reference: Any): ViewGroup {
         return doCreate(
-                context,
-                reference,
-                SceneAnimations.FADE,
-                FrameLayout(context), null
+            context,
+            reference,
+            SceneAnimations.FADE,
+            FrameLayout(context), null
         )
     }
 
@@ -60,14 +60,16 @@ object SceneManager {
      * @param reference an object that has a [BuildScenes]
      * @param adapter The [AnimationAdapter] to be used.
      */
-    fun create(context: Context,
-               reference: Any,
-               adapter: AnimationAdapter<ScenesParams>?): ViewGroup {
+    fun create(
+        context: Context,
+        reference: Any,
+        adapter: AnimationAdapter<ScenesParams>?
+    ): ViewGroup {
         return doCreate(
-                context,
-                reference,
-                adapter,
-                FrameLayout(context), null
+            context,
+            reference,
+            adapter,
+            FrameLayout(context), null
         )
     }
 
@@ -84,10 +86,10 @@ object SceneManager {
      */
     fun create(activity: Activity): ViewGroup {
         val root = doCreate(
-                activity,
-                activity,
-                SceneAnimations.FADE,
-                FrameLayout(activity), null
+            activity,
+            activity,
+            SceneAnimations.FADE,
+            FrameLayout(activity), null
         )
         activity.setContentView(root)
         return root
@@ -105,8 +107,10 @@ object SceneManager {
      * @param activity an [Activity] that has a [BuildScenes]
      * @param adapter The [AnimationAdapter] to be used.
      */
-    fun create(activity: Activity,
-               adapter: AnimationAdapter<ScenesParams>?): ViewGroup {
+    fun create(
+        activity: Activity,
+        adapter: AnimationAdapter<ScenesParams>?
+    ): ViewGroup {
         val root = doCreate(activity, activity, adapter, FrameLayout(activity), null)
         activity.setContentView(root)
         return root
@@ -139,8 +143,10 @@ object SceneManager {
      * @param view a [ViewGroup] that has a [BuildScenes]
      * @param adapter The [AnimationAdapter] to be used.
      */
-    fun create(view: ViewGroup,
-               adapter: AnimationAdapter<ScenesParams>?): ViewGroup {
+    fun create(
+        view: ViewGroup,
+        adapter: AnimationAdapter<ScenesParams>?
+    ): ViewGroup {
         return doCreate(view.context, view, adapter, view, null)
     }
 
@@ -155,11 +161,11 @@ object SceneManager {
     @Suppress("DEPRECATION")
     fun create(fragment: Fragment): ViewGroup {
         return doCreate(
-                fragment.activity,
-                fragment,
-                SceneAnimations.FADE,
-                FrameLayout(fragment.activity),
-                null
+            fragment.activity,
+            fragment,
+            SceneAnimations.FADE,
+            FrameLayout(fragment.activity),
+            null
         )
     }
 
@@ -173,13 +179,15 @@ object SceneManager {
      * @param adapter The [AnimationAdapter] to be used.
      */
     @Suppress("DEPRECATION")
-    fun create(fragment: Fragment,
-               adapter: AnimationAdapter<ScenesParams>?): ViewGroup {
+    fun create(
+        fragment: Fragment,
+        adapter: AnimationAdapter<ScenesParams>?
+    ): ViewGroup {
         return doCreate(
-                fragment.activity,
-                fragment,
-                adapter,
-                FrameLayout(fragment.activity), null
+            fragment.activity,
+            fragment,
+            adapter,
+            FrameLayout(fragment.activity), null
         )
     }
 
@@ -193,10 +201,10 @@ object SceneManager {
      */
     fun create(fragment: androidx.fragment.app.Fragment): ViewGroup {
         return doCreate(
-                fragment.activity!!,
-                fragment,
-                SceneAnimations.FADE,
-                FrameLayout(fragment.activity!!), null
+            fragment.activity!!,
+            fragment,
+            SceneAnimations.FADE,
+            FrameLayout(fragment.activity!!), null
         )
     }
 
@@ -209,13 +217,15 @@ object SceneManager {
      * @param fragment an [androidx.fragment.app.Fragment] that has a [BuildScenes]
      * @param adapter The [AnimationAdapter] to be used.
      */
-    fun create(fragment: androidx.fragment.app.Fragment,
-               adapter: AnimationAdapter<ScenesParams>?): ViewGroup {
+    fun create(
+        fragment: androidx.fragment.app.Fragment,
+        adapter: AnimationAdapter<ScenesParams>?
+    ): ViewGroup {
         return doCreate(
-                fragment.activity!!,
-                fragment,
-                adapter,
-                FrameLayout(fragment.activity!!), null
+            fragment.activity!!,
+            fragment,
+            adapter,
+            FrameLayout(fragment.activity!!), null
         )
     }
 
@@ -227,19 +237,21 @@ object SceneManager {
     fun create(creator: SceneCreator) {
         // Save the scene's meta data
         val adapter = creator.adapter
-        sScenesMeta.add(Pair(
+        sScenesMeta.add(
+            Pair(
                 WeakReference(creator.reference),
                 ScenesMeta(
-                        adapter ?: SceneAnimations.FADE,
-                        creator.scenes,
-                        creator.listener
-                ))
+                    adapter ?: SceneAnimations.FADE,
+                    creator.scenes,
+                    creator.listener
+                )
+            )
         )
         if (creator.firstSceneId != -1) {
             doChangeScene(
-                    creator.reference,
-                    creator.firstSceneId,
-                    false
+                creator.reference,
+                creator.firstSceneId,
+                false
             )
         }
     }
@@ -316,11 +328,13 @@ object SceneManager {
      *
      * @return The root view group that contains the scenes
      */
-    private fun doCreate(context: Context,
-                         reference: Any,
-                         adapter: AnimationAdapter<ScenesParams>?,
-                         root: ViewGroup,
-                         listener: SceneListener?): ViewGroup {
+    private fun doCreate(
+        context: Context,
+        reference: Any,
+        adapter: AnimationAdapter<ScenesParams>?,
+        root: ViewGroup,
+        listener: SceneListener?
+    ): ViewGroup {
         var animationAdapter = adapter
         // Retrieve annotations
         val setup = safeGetSetup(reference)
@@ -338,16 +352,18 @@ object SceneManager {
 
         // Save the scene's meta data
         val meta = ScenesMeta(root, animationAdapter, scenes, listener)
-        sScenesMeta.add(Pair(
+        sScenesMeta.add(
+            Pair(
                 WeakReference(reference),
                 meta
-        ))
+            )
+        )
 
         animationAdapter.doChangeScene(
-                meta.scenesIdsToViews,
-                meta.scenesParams,
-                getValidFirstScene(setup, scenes),
-                false
+            meta.scenesIdsToViews,
+            meta.scenesParams,
+            getValidFirstScene(setup, scenes),
+            false
         )
         return root
     }
@@ -450,9 +466,11 @@ object SceneManager {
      * @param fragment The holder fragment.
      * @param scene The scene id. See [Scene.scene].
      */
-    fun scene(fragment: androidx.fragment.app.Fragment,
-              scene: Int,
-              animate: Boolean) {
+    fun scene(
+        fragment: androidx.fragment.app.Fragment,
+        scene: Int,
+        animate: Boolean
+    ) {
         doChangeScene(fragment, scene, animate)
     }
 
@@ -461,7 +479,7 @@ object SceneManager {
         // the default scene specified by the user is valid
         return scenes.firstOrNull { it.scene == firstScene }?.scene
         // the default scene is not valid
-                ?: scenes[0].scene
+            ?: scenes[0].scene
     }
 
     private fun safeGetSetup(obj: Any): BuildScenes? {
@@ -486,15 +504,15 @@ object SceneManager {
         val scenesIdsToViews = meta.scenesIdsToViews
 
         meta.sceneAnimationAdapter
-                .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate)
+            .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate)
         meta.currentSceneId = sceneId
         notifyListener(scenesIdsToViews, sceneId, meta.listener)
     }
 
     private fun notifyListener(
-            scenesIdsToViews: SparseArray<MutableList<View>>,
-            sceneId: Int,
-            listener: SceneListener?
+        scenesIdsToViews: SparseArray<MutableList<View>>,
+        sceneId: Int,
+        listener: SceneListener?
     ) {
         listener ?: return // nothing to do if no listener
         scenesIdsToViews.forEach { viewSceneId, _ ->

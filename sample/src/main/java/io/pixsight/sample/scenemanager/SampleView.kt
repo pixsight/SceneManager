@@ -12,17 +12,17 @@ import kotlinx.android.synthetic.main.sample_view_main.view.*
 import kotlinx.android.synthetic.main.spinner.view.*
 
 @BuildScenes(
-        value = [
-            Scene(scene = Scene.MAIN, layout = R.layout.sample_view_main),
-            Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
-            Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
-        ],
-        first = Scene.MAIN
+    value = [
+        Scene(scene = Scene.MAIN, layout = R.layout.sample_view_main),
+        Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
+        Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
+    ],
+    first = Scene.MAIN
 )
 class SampleView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
     init {
