@@ -13,14 +13,14 @@ import androidx.annotation.LayoutRes
 @Target(AnnotationTarget.ANNOTATION_CLASS)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class Scene(
-        /**
-         * The unique identifier associated to this scene.
-         */
-        val scene: Int,
-        /**
-         * The [LayoutRes] that will be inflated for this scene
-         */
-        @LayoutRes val layout: Int
+    /**
+     * The unique identifier associated to this scene.
+     */
+    val scene: Int,
+    /**
+     * The [LayoutRes] that will be inflated for this scene
+     */
+    @LayoutRes val layout: Int
 ) {
 
     companion object {

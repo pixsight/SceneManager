@@ -24,7 +24,10 @@ import io.pixsight.scenemanager.animations.ScenesParams
  * .main(Scene.MAIN)
  * );
  */
-class SceneCreator private constructor(internal val reference: Any, private val mRootView: ViewGroup) {
+class SceneCreator private constructor(
+    internal val reference: Any,
+    private val mRootView: ViewGroup
+) {
     internal var listener: SceneListener? = null
         private set
     internal var adapter: AnimationAdapter<ScenesParams>? = null
@@ -104,8 +107,8 @@ class SceneCreator private constructor(internal val reference: Any, private val 
          */
         fun with(reference: Any, rootView: ViewGroup): SceneCreator {
             return SceneCreator(
-                    reference,
-                    rootView
+                reference,
+                rootView
             )
         }
 
@@ -119,9 +122,9 @@ class SceneCreator private constructor(internal val reference: Any, private val 
          */
         fun with(activity: Activity): SceneCreator {
             return SceneCreator(
-                    activity,
-                    (activity.findViewById<View>(R.id.content) as ViewGroup)
-                            .getChildAt(0) as ViewGroup
+                activity,
+                (activity.findViewById<View>(R.id.content) as ViewGroup)
+                    .getChildAt(0) as ViewGroup
             )
         }
 
@@ -137,8 +140,8 @@ class SceneCreator private constructor(internal val reference: Any, private val 
         fun with(fragment: Fragment): SceneCreator {
             fragment.view ?: throw NullPointerException("fragment.getView() == null")
             return SceneCreator(
-                    fragment,
-                    (fragment.view as ViewGroup?)!!
+                fragment,
+                (fragment.view as ViewGroup?)!!
             )
         }
 
@@ -154,8 +157,8 @@ class SceneCreator private constructor(internal val reference: Any, private val 
         fun with(fragment: androidx.fragment.app.Fragment): SceneCreator {
             fragment.view ?: throw NullPointerException("fragment.getView() == null")
             return SceneCreator(
-                    fragment,
-                    (fragment.view as ViewGroup?)!!
+                fragment,
+                (fragment.view as ViewGroup?)!!
             )
         }
 

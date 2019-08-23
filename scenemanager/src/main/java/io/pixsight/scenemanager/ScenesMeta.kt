@@ -11,17 +11,18 @@ import io.pixsight.scenemanager.annotations.Scene
  * Contains data about a [io.pixsight.scenemanager.annotations.Scene]
  */
 internal class ScenesMeta private constructor(
-        val sceneAnimationAdapter: AnimationAdapter<ScenesParams>,
-        val listener: SceneListener? = null
+    val sceneAnimationAdapter: AnimationAdapter<ScenesParams>,
+    val listener: SceneListener? = null
 ) {
     val scenesIdsToViews: SparseArray<MutableList<View>> = SparseArray()
     var scenesParams: ScenesParams? = null
     var currentSceneId = Integer.MIN_VALUE
 
-    constructor(root: ViewGroup,
-                sceneAnimationAdapter: AnimationAdapter<ScenesParams>,
-                scenes: Array<out Scene>,
-                listener: SceneListener?
+    constructor(
+        root: ViewGroup,
+        sceneAnimationAdapter: AnimationAdapter<ScenesParams>,
+        scenes: Array<out Scene>,
+        listener: SceneListener?
     ) : this(sceneAnimationAdapter, listener) {
         scenes.forEachIndexed { i, scene ->
             val sceneId = scene.scene
@@ -36,9 +37,10 @@ internal class ScenesMeta private constructor(
         scenesParams = this.sceneAnimationAdapter.generateScenesParams(scenesIdsToViews)
     }
 
-    constructor(sceneAnimationAdapter: AnimationAdapter<ScenesParams>,
-                scenesIds: MutableList<Pair<Int, View>>,
-                listener: SceneListener?
+    constructor(
+        sceneAnimationAdapter: AnimationAdapter<ScenesParams>,
+        scenesIds: MutableList<Pair<Int, View>>,
+        listener: SceneListener?
     ) : this(sceneAnimationAdapter, listener) {
         scenesIds.forEach { (id, view) ->
             var list: MutableList<View>? = scenesIdsToViews.get(id)
