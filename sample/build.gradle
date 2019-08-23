@@ -34,13 +34,17 @@ android {
             signingConfig signingConfigs.releaseKeyStore
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
     implementation project(':scenemanager')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation "androidx.core:core-ktx:1.0.2"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {
     mavenCentral()
