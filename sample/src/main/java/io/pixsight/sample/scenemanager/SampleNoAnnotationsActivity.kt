@@ -28,8 +28,12 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
                 .first(Scene.MAIN)
                 .animation(SceneAnimations.TRANSLATE_X)
                 .listener(object : SceneListener {
-                    override fun onSceneChanged(sceneId: Int) {
-                        Log.d("SceneListener", "New scene $sceneId")
+                    override fun onSceneDisplayed(sceneId: Int) {
+                        Log.d("SceneListener", "Scene displayed : $sceneId")
+                    }
+
+                    override fun onSceneHidden(sceneId: Int) {
+                        Log.d("SceneListener", "Scene hidden : $sceneId")
                     }
                 })
         )

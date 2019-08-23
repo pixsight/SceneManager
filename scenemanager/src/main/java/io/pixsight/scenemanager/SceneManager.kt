@@ -5,12 +5,9 @@ package io.pixsight.scenemanager
 import android.app.Activity
 import android.app.Fragment
 import android.content.Context
-import android.util.SparseArray
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.util.forEach
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.animations.ScenesParams
@@ -501,29 +498,26 @@ object SceneManager {
 
     private fun doChangeScene(obj: Any, sceneId: Int, animate: Boolean = true) {
         val meta = safeGetMetaData(obj) ?: return
+        if (sceneId == meta.currentSceneId) {
+            return // nothing to do, the scene is already displayed
+        }
         val scenesIdsToViews = meta.scenesIdsToViews
 
         meta.sceneAnimationAdapter
             .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate)
+        notifyListener(meta.currentSceneId, sceneId, meta.listener)
         meta.currentSceneId = sceneId
-        notifyListener(scenesIdsToViews, sceneId, meta.listener)
     }
 
     private fun notifyListener(
-        scenesIdsToViews: SparseArray<MutableList<View>>,
+        currentSceneId: Int,
         sceneId: Int,
         listener: SceneListener?
     ) {
         listener ?: return // nothing to do if no listener
-        scenesIdsToViews.forEach { viewSceneId, _ ->
-            val show = viewSceneId == sceneId
-
-            if (show) {
-                listener.onSceneDisplayed(sceneId)
-            } else {
-                listener.onSceneHidden(sceneId)
-            }
+        if (currentSceneId != Int.MIN_VALUE) {
+            listener.onSceneHidden(currentSceneId)
         }
-        listener.onSceneChanged(sceneId)
+        listener.onSceneDisplayed(sceneId)
     }
 }
