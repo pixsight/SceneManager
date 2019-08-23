@@ -123,7 +123,7 @@ class SceneCreator private constructor(
         fun with(activity: Activity): SceneCreator {
             return SceneCreator(
                 activity,
-                (activity.findViewById<View>(R.id.content) as ViewGroup)
+                (activity.findViewById<View>(android.R.id.content) as ViewGroup)
                     .getChildAt(0) as ViewGroup
             )
         }
