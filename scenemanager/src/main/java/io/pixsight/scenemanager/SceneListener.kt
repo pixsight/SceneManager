@@ -7,23 +7,18 @@ package io.pixsight.scenemanager
 interface SceneListener {
 
     /**
-     * This method is called when the current scene change.
+     * This method is called when the current scene is hidden.
      *
-     * @param sceneId the new scene that is displayed to the user.
-     */
-    fun onSceneChanged(sceneId: Int) = Unit
-
-    /**
-     * This method is called when a scene is hidden.
+     * Note that this method is not called if there is no current scene set
      *
-     * @param sceneId the new scene that is has been hidden.
+     * @param sceneId the scene that has been hidden.
      */
     fun onSceneHidden(sceneId: Int) = Unit
 
     /**
      * This method is called when a scene is displayed.
      *
-     * @param sceneId the new scene that is has been displayed.
+     * @param sceneId the scene that has been displayed.
      */
     fun onSceneDisplayed(sceneId: Int) = Unit
 }

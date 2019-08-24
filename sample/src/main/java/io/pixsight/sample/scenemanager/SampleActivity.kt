@@ -39,25 +39,23 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
         sample_switch_to_existing_layout.setOnClickListener(this)
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.sample_switch_to_main,
-            R.id.sample_switch_to_activity,
-            R.id.go_to_main_from_loader,
-            R.id.go_to_main_from_placeholder ->
-                SceneManager.scene(this, Scene.MAIN)
-            R.id.sample_switch_to_progress -> SceneManager.scene(this, Scene.SPINNER)
-            R.id.sample_switch_to_placeholder -> SceneManager.scene(this, Scene.PLACEHOLDER)
-            R.id.sample_switch_to_custom_view -> SceneManager.scene(this, SAMPLE_WITH_VIEW)
-            R.id.sample_switch_to_fragment ->
-                @Suppress("DEPRECATION")
-                SampleFragment.newInstance().show(fragmentManager, "SampleFragment")
-            R.id.sample_switch_to_fragment_v4 ->
-                SampleFragmentV4.newInstance().show(supportFragmentManager, "SampleFragmentv4")
-            R.id.sample_switch_to_existing_layout ->
-                SampleNoAnnotationsActivity.startActivity(this)
-            else -> throw IllegalArgumentException("Nope")
-        }
+    override fun onClick(v: View) = when (v.id) {
+        R.id.sample_switch_to_main,
+        R.id.sample_switch_to_activity,
+        R.id.go_to_main_from_loader,
+        R.id.go_to_main_from_placeholder ->
+            SceneManager.scene(this, Scene.MAIN)
+        R.id.sample_switch_to_progress -> SceneManager.scene(this, Scene.SPINNER)
+        R.id.sample_switch_to_placeholder -> SceneManager.scene(this, Scene.PLACEHOLDER)
+        R.id.sample_switch_to_custom_view -> SceneManager.scene(this, SAMPLE_WITH_VIEW)
+        R.id.sample_switch_to_fragment ->
+            @Suppress("DEPRECATION")
+            SampleFragment.newInstance().show(fragmentManager, "SampleFragment")
+        R.id.sample_switch_to_fragment_v4 ->
+            SampleFragmentV4.newInstance().show(supportFragmentManager, "SampleFragmentv4")
+        R.id.sample_switch_to_existing_layout ->
+            SampleNoAnnotationsActivity.startActivity(this)
+        else -> throw IllegalArgumentException("Nope")
     }
 
     override fun onDestroy() {
@@ -66,7 +64,6 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
     }
 
     companion object {
-
         const val SAMPLE_WITH_VIEW = 3
     }
 }
