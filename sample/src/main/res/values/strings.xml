@@ -4,6 +4,7 @@
     <string name="button_1">Main content</string>
     <string name="button_2">Loader</string>
     <string name="button_3">Placeholder</string>
+    <string name="button_4">Restore</string>
     <string name="sample_with_custom_view">Sample with custom view</string>
     <string name="sample_view_title">Sample with custom view</string>
     <string name="sample_activity_title">Sample with activity</string>
@@ -14,4 +15,5 @@
     <string name="default_generic_error">Fake error, please retry</string>
     <string name="fake_main_content_text">This is a dummy main content !\nclick here to load more</string>
     <string name="sample_switch_to_existing_layout">Sample with existing layout (using SceneScreator)</string>
+    <string name="sample_hide">Hide All</string>
 </resources>
