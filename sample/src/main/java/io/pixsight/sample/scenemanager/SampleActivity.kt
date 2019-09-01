@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import io.pixsight.scenemanager.SceneManager
 import io.pixsight.scenemanager.annotations.BuildScenes
 import io.pixsight.scenemanager.annotations.Scene
+import kotlinx.android.synthetic.main.hidden.*
 import kotlinx.android.synthetic.main.placeholder.*
 import kotlinx.android.synthetic.main.sample_activity_main.*
 import kotlinx.android.synthetic.main.sample_activity_main.sample_switch_to_main
@@ -19,7 +20,8 @@ import kotlinx.android.synthetic.main.spinner.*
     Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor),
     Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
     Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
-    Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view)
+    Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view),
+    Scene(scene = SampleActivity.SAMPLE_HIDDEN, layout = R.layout.hidden)
 )
 class SampleActivity : FragmentActivity(), View.OnClickListener {
 
@@ -37,13 +39,16 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
         sample_switch_to_fragment.setOnClickListener(this)
         sample_switch_to_fragment_v4.setOnClickListener(this)
         sample_switch_to_existing_layout.setOnClickListener(this)
+        sample_hide.setOnClickListener(this)
+        restore_from_hidden_bt.setOnClickListener(this)
     }
 
     override fun onClick(v: View) = when (v.id) {
         R.id.sample_switch_to_main,
         R.id.sample_switch_to_activity,
         R.id.go_to_main_from_loader,
-        R.id.go_to_main_from_placeholder ->
+        R.id.go_to_main_from_placeholder,
+        R.id.restore_from_hidden_bt ->
             SceneManager.scene(this, Scene.MAIN)
         R.id.sample_switch_to_progress -> SceneManager.scene(this, Scene.SPINNER)
         R.id.sample_switch_to_placeholder -> SceneManager.scene(this, Scene.PLACEHOLDER)
@@ -55,6 +60,10 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
             SampleFragmentV4.newInstance().show(supportFragmentManager, "SampleFragmentv4")
         R.id.sample_switch_to_existing_layout ->
             SampleNoAnnotationsActivity.startActivity(this)
+        R.id.sample_hide -> {
+            SceneManager.hide(this) // all is now hidden
+            SceneManager.scene(this, SAMPLE_HIDDEN) // load scene with a button so you can come back
+        }
         else -> throw IllegalArgumentException("Nope")
     }
 
@@ -65,5 +74,6 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
 
     companion object {
         const val SAMPLE_WITH_VIEW = 3
+        const val SAMPLE_HIDDEN = 4
     }
 }

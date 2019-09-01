@@ -36,5 +36,6 @@ annotation class Scene(
         const val MAIN = 0x420
         const val SPINNER = 0x421
         const val PLACEHOLDER = 0x423
+        internal const val NONE = Int.MIN_VALUE
     }
 }

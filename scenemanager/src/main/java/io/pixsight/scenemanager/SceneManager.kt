@@ -368,108 +368,17 @@ object SceneManager {
     /**
      * Switch to another [Scene].
      *
-     * @param reference The reference.
+     * @param holder The holder. Can be an [Activity], [ViewGroup], [Fragment] or anything else
      * @param scene The scene id. See [Scene.scene].
      */
-    fun scene(reference: Any, scene: Int) {
-        doChangeScene(reference, scene)
-    }
+    fun scene(holder: Any, scene: Int, animate: Boolean = true) = doChangeScene(holder, scene, animate)
 
     /**
-     * Switch to another [Scene].
+     * Hide all [Scene].
      *
-     * @param reference The reference.
-     * @param scene The scene id. See [Scene.scene].
+     * @param holder The holder. Can be an [Activity], [ViewGroup], [Fragment] or anything else
      */
-    fun scene(reference: Any, scene: Int, animate: Boolean) {
-        doChangeScene(reference, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param activity The parent activity.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(activity: Activity, scene: Int) {
-        doChangeScene(activity, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param view The holder view.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(view: ViewGroup, scene: Int) {
-        doChangeScene(view, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    @Suppress("DEPRECATION")
-    fun scene(fragment: Fragment, scene: Int) {
-        doChangeScene(fragment, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(fragment: androidx.fragment.app.Fragment, scene: Int) {
-        doChangeScene(fragment, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param activity The parent activity.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(activity: Activity, scene: Int, animate: Boolean) {
-        doChangeScene(activity, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param view The holder view.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(view: ViewGroup, scene: Int, animate: Boolean) {
-        doChangeScene(view, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    @Suppress("DEPRECATION")
-    fun scene(fragment: Fragment, scene: Int, animate: Boolean) {
-        doChangeScene(fragment, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(
-        fragment: androidx.fragment.app.Fragment,
-        scene: Int,
-        animate: Boolean
-    ) {
-        doChangeScene(fragment, scene, animate)
-    }
+    fun hide(holder: Any, animate: Boolean = true) = doChangeScene(holder, Scene.NONE, animate)
 
     private fun getValidFirstScene(setup: BuildScenes, scenes: Array<out Scene>): Int {
         val firstScene = setup.first
@@ -496,7 +405,7 @@ object SceneManager {
         return sScenesMeta.firstOrNull { (ref, _) -> ref.get() == obj }
     }
 
-    private fun doChangeScene(obj: Any, sceneId: Int, animate: Boolean = true) {
+    private fun doChangeScene(obj: Any, sceneId: Int, animate: Boolean) {
         val meta = safeGetMetaData(obj) ?: return
         if (sceneId == meta.currentSceneId) {
             return // nothing to do, the scene is already displayed
