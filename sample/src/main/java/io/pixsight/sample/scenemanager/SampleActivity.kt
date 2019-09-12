@@ -37,6 +37,7 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
         sample_switch_to_fragment.setOnClickListener(this)
         sample_switch_to_fragment_v4.setOnClickListener(this)
         sample_switch_to_existing_layout.setOnClickListener(this)
+        sample_switch_to_bind_scenes.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -56,6 +57,8 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
                 SampleFragmentV4.newInstance().show(supportFragmentManager, "SampleFragmentv4")
             R.id.sample_switch_to_existing_layout ->
                 SampleNoAnnotationsActivity.startActivity(this)
+            R.id.sample_switch_to_bind_scenes ->
+                SampleBindScenesActivity.startActivity(this)
             else -> throw IllegalArgumentException("Nope")
         }
     }

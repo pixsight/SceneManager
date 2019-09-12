@@ -26,7 +26,7 @@ import io.pixsight.scenemanager.animations.ScenesParams
  */
 class SceneCreator private constructor(
     internal val reference: Any,
-    private val mRootView: ViewGroup
+    private val rootView: ViewGroup
 ) {
     internal var listener: SceneListener? = null
         private set
@@ -90,7 +90,7 @@ class SceneCreator private constructor(
      * @return a [SceneCreator] for more configurations.
      */
     fun add(sceneId: Int, @IdRes idRes: Int): SceneCreator {
-        return add(sceneId, mRootView.findViewById<View>(idRes))
+        return add(sceneId, rootView.findViewById<View>(idRes))
     }
 
     companion object {

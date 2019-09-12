@@ -14,6 +14,7 @@ import androidx.core.util.forEach
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.animations.ScenesParams
+import io.pixsight.scenemanager.annotations.BindScenes
 import io.pixsight.scenemanager.annotations.BuildScenes
 import io.pixsight.scenemanager.annotations.Scene
 import java.lang.ref.WeakReference
@@ -235,6 +236,15 @@ object SceneManager {
      * @param creator a [SceneCreator]
      */
     fun create(creator: SceneCreator) {
+        val setup = getBindAnnotation(creator.reference)
+        val scenes = setup?.value
+
+        scenes?.forEach { scene ->
+            scene.viewIds.forEach {
+                creator.add(scene.scene, it)
+            }
+        }
+
         // Save the scene's meta data
         val adapter = creator.adapter
         sScenesMeta.add(
@@ -337,8 +347,8 @@ object SceneManager {
     ): ViewGroup {
         var animationAdapter = adapter
         // Retrieve annotations
-        val setup = safeGetSetup(reference)
-        val scenes = setup!!.value
+        val setup = safeGetBuildAnnotation(reference)
+        val scenes = setup.value
 
         // Create root node with all scenes
         if (animationAdapter == null) {
@@ -482,12 +492,20 @@ object SceneManager {
             ?: scenes[0].scene
     }
 
-    private fun safeGetSetup(obj: Any): BuildScenes? {
+    private fun safeGetBuildAnnotation(obj: Any): BuildScenes {
         val objClass = obj.javaClass
         if (!objClass.isAnnotationPresent(BuildScenes::class.java)) {
             throw RuntimeException("Annotation @BuildScenes is missing")
         }
-        return objClass.getAnnotation(BuildScenes::class.java)
+        return objClass.getAnnotation(BuildScenes::class.java)!!
+    }
+
+    private fun getBindAnnotation(obj: Any): BindScenes? {
+        val objClass = obj.javaClass
+        if (!objClass.isAnnotationPresent(BindScenes::class.java)) {
+            return null
+        }
+        return objClass.getAnnotation(BindScenes::class.java)
     }
 
     private fun safeGetMetaData(obj: Any): ScenesMeta? {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="io.pixsight.sample.scenemanager">
 
     <application
@@ -7,7 +8,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name="io.pixsight.sample.scenemanager.SampleActivity"
@@ -21,6 +23,10 @@
 
         <activity
             android:name="io.pixsight.sample.scenemanager.SampleNoAnnotationsActivity"
+            android:screenOrientation="sensorPortrait" />
+
+        <activity
+            android:name="io.pixsight.sample.scenemanager.SampleBindScenesActivity"
             android:screenOrientation="sensorPortrait" />
     </application>
 

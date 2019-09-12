@@ -1,5 +1,6 @@
 package io.pixsight.scenemanager.annotations
 
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 
 /**
@@ -20,7 +21,8 @@ annotation class Scene(
     /**
      * The [LayoutRes] that will be inflated for this scene
      */
-    @LayoutRes val layout: Int
+    @LayoutRes val layout: Int = 0,
+    @IdRes vararg val viewIds: Int = []
 ) {
 
     companion object {
