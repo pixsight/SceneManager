@@ -69,5 +69,11 @@
             android:text="@string/sample_switch_to_bind_scenes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/sample_switch_to_iod"
+            android:text="@string/sample_switch_to_iod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

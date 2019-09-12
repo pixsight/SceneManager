@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.spinner.*
     Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
     Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view),
     inflateOnDemand = true,
-    first = Scene.SPINNER
+    first = Scene.MAIN
 )
 class SampleActivity : FragmentActivity(), View.OnClickListener {
 
@@ -44,6 +44,7 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
         sample_switch_to_fragment_v4?.setOnClickListener(this)
         sample_switch_to_existing_layout?.setOnClickListener(this)
         sample_switch_to_bind_scenes?.setOnClickListener(this)
+        sample_switch_to_iod?.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -65,6 +66,8 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
                 SampleNoAnnotationsActivity.startActivity(this)
             R.id.sample_switch_to_bind_scenes ->
                 SampleBindScenesActivity.startActivity(this)
+            R.id.sample_switch_to_iod ->
+                SampleInflateOnDemandActivity.startActivity(this)
             else -> throw IllegalArgumentException("Nope")
         }
 

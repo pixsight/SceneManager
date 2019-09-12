@@ -28,6 +28,10 @@
         <activity
             android:name="io.pixsight.sample.scenemanager.SampleBindScenesActivity"
             android:screenOrientation="sensorPortrait" />
+
+        <activity
+            android:name="io.pixsight.sample.scenemanager.SampleInflateOnDemandActivity"
+            android:screenOrientation="sensorPortrait" />
     </application>
 
 </manifest>

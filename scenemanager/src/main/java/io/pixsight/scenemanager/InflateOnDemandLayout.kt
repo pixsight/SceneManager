@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 
-class InflateOnDemandLayout(
+class InflateOnDemandLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -27,6 +27,9 @@ class InflateOnDemandLayout(
                 0
             )
             a.recycle()
+        }
+        if (isInEditMode) {
+            inflate()
         }
     }
 
