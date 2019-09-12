@@ -244,6 +244,10 @@ object SceneManager {
             }
         }
 
+        if (setup?.inflateOnDemand == true && !creator.inflateOnDemand) {
+            creator.inflateOnDemand(true)
+        }
+
         // Save the scene's meta data
         val adapter = creator.adapter
         sScenesMeta.add(
@@ -252,7 +256,8 @@ object SceneManager {
                 ScenesMeta(
                     adapter ?: SceneAnimations.FADE,
                     creator.scenes,
-                    creator.listener
+                    creator.listener,
+                    creator.inflateOnDemand
                 )
             )
         )
@@ -356,12 +361,18 @@ object SceneManager {
         }
         val inflater = LayoutInflater.from(context)
         scenes.forEach { scene ->
-            val view = inflater.inflate(scene.layout, root, false)
+            val view = if (setup.inflateOnDemand) {
+                val onDemandView = InflateOnDemandLayout(root.context)
+                onDemandView.layoutId = scene.layout
+                onDemandView
+            } else {
+                inflater.inflate(scene.layout, root, false)
+            }
             root.addView(view)
         }
 
         // Save the scene's meta data
-        val meta = ScenesMeta(root, animationAdapter, scenes, listener)
+        val meta = ScenesMeta(root, animationAdapter, scenes, listener, setup.inflateOnDemand)
         sScenesMeta.add(
             Pair(
                 WeakReference(reference),
@@ -369,9 +380,8 @@ object SceneManager {
             )
         )
 
-        animationAdapter.doChangeScene(
-            meta.scenesIdsToViews,
-            meta.scenesParams,
+        doChangeScene(
+            reference,
             getValidFirstScene(setup, scenes),
             false
         )
@@ -521,8 +531,17 @@ object SceneManager {
         val meta = safeGetMetaData(obj) ?: return
         val scenesIdsToViews = meta.scenesIdsToViews
 
+        // inflate on demand
+        if (meta.inflateOnDemand) {
+            val currentSceneViews = scenesIdsToViews.get(sceneId)
+            currentSceneViews.forEach { (it as InflateOnDemandLayout).inflate() }
+        }
+
+        // start animations
         meta.sceneAnimationAdapter
             .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate)
+
+        // notify listener
         meta.currentSceneId = sceneId
         notifyListener(scenesIdsToViews, sceneId, meta.listener)
     }

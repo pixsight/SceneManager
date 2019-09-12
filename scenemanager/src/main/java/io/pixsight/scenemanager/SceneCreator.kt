@@ -28,6 +28,8 @@ class SceneCreator private constructor(
     internal val reference: Any,
     private val rootView: ViewGroup
 ) {
+    internal var inflateOnDemand: Boolean = false
+        private set
     internal var listener: SceneListener? = null
         private set
     internal var adapter: AnimationAdapter<ScenesParams>? = null
@@ -67,6 +69,11 @@ class SceneCreator private constructor(
      */
     fun first(defaultSceneId: Int): SceneCreator {
         firstSceneId = defaultSceneId
+        return this
+    }
+
+    fun inflateOnDemand(inflateOnDemand: Boolean): SceneCreator {
+        this.inflateOnDemand = inflateOnDemand
         return this
     }
 
