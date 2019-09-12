@@ -14,7 +14,6 @@ import androidx.core.util.forEach
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.animations.ScenesParams
-import io.pixsight.scenemanager.annotations.BindScenes
 import io.pixsight.scenemanager.annotations.BuildScenes
 import io.pixsight.scenemanager.annotations.Scene
 import java.lang.ref.WeakReference
@@ -236,7 +235,7 @@ object SceneManager {
      * @param creator a [SceneCreator]
      */
     fun create(creator: SceneCreator) {
-        val setup = getBindAnnotation(creator.reference)
+        val setup = getBuildAnnotation(creator.reference)
         val scenes = setup?.value
 
         scenes?.forEach { scene ->
@@ -257,10 +256,11 @@ object SceneManager {
                 )
             )
         )
-        if (creator.firstSceneId != -1) {
+
+        if (setup != null || creator.firstSceneId != -1) {
             doChangeScene(
                 creator.reference,
-                creator.firstSceneId,
+                if (creator.firstSceneId == -1) setup!!.first else creator.firstSceneId,
                 false
             )
         }
@@ -500,12 +500,12 @@ object SceneManager {
         return objClass.getAnnotation(BuildScenes::class.java)!!
     }
 
-    private fun getBindAnnotation(obj: Any): BindScenes? {
+    private fun getBuildAnnotation(obj: Any): BuildScenes? {
         val objClass = obj.javaClass
-        if (!objClass.isAnnotationPresent(BindScenes::class.java)) {
+        if (!objClass.isAnnotationPresent(BuildScenes::class.java)) {
             return null
         }
-        return objClass.getAnnotation(BindScenes::class.java)
+        return objClass.getAnnotation(BuildScenes::class.java)
     }
 
     private fun safeGetMetaData(obj: Any): ScenesMeta? {

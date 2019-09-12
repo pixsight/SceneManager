@@ -10,11 +10,11 @@ import io.pixsight.scenemanager.SceneCreator
 import io.pixsight.scenemanager.SceneListener
 import io.pixsight.scenemanager.SceneManager
 import io.pixsight.scenemanager.animations.SceneAnimations
-import io.pixsight.scenemanager.annotations.BindScenes
+import io.pixsight.scenemanager.annotations.BuildScenes
 import io.pixsight.scenemanager.annotations.Scene
 import kotlinx.android.synthetic.main.activity_no_annotations_sample.*
 
-@BindScenes(
+@BuildScenes(
     value = [
         Scene(scene = Scene.MAIN, viewIds = intArrayOf(
             R.id.activity_no_annotations_sample_main_content,
@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_no_annotations_sample.*
             R.id.activity_no_annotations_sample_placeholder
         ))
     ],
-    first = Scene.MAIN
+    first = Scene.PLACEHOLDER
 )
 class SampleBindScenesActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -38,7 +38,6 @@ class SampleBindScenesActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_no_annotations_sample)
         SceneManager.create(
             SceneCreator.with(this)
-                .first(Scene.MAIN)
                 .animation(SceneAnimations.TRANSLATE_X)
                 .listener(object : SceneListener {
                     override fun onSceneChanged(sceneId: Int) {
