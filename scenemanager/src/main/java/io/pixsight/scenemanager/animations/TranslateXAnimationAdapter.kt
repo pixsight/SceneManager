@@ -53,9 +53,10 @@ class TranslateXAnimationAdapter(
                 return@forEach
             }
 
+            // Animate each view if needed
             val isLeftToRight = scenePosition < lastScenePosition
             views.forEach { view ->
-                // If a view is on both scene, then we shouldn't animate
+                // If a view is in both scene, then we shouldn't animate
                 val isInBothScene = scenesIdsToViews[scenesParams.lastSceneId].contains(view) &&
                         scenesIdsToViews[sceneId].contains(view)
                 if (!isInBothScene) {
