@@ -53,12 +53,20 @@ class TranslateXAnimationAdapter(
                 return@forEach
             }
 
-            if (scenePosition < lastScenePosition) {
-                // left to right
-                doLeftToRight(isNewScene, views)
-            } else {
-                // right to left
-                doRightToLeft(isNewScene, views)
+            val isLeftToRight = scenePosition < lastScenePosition
+            views.forEach { view ->
+                // If a view is on both scene, then we shouldn't animate
+                val isInBothScene = scenesIdsToViews[scenesParams.lastSceneId].contains(view) &&
+                        scenesIdsToViews[sceneId].contains(view)
+                if (!isInBothScene) {
+                    if (isLeftToRight) {
+                        // left to right
+                        doLeftToRight(isNewScene, view)
+                    } else {
+                        // right to left
+                        doRightToLeft(isNewScene, view)
+                    }
+                }
             }
         }
         scenesParams.lastSceneId = sceneId
@@ -74,24 +82,22 @@ class TranslateXAnimationAdapter(
         view.isVisible = isNewScene
     }
 
-    private fun doLeftToRight(isNewScene: Boolean, views: List<View>) = views.forEach { view ->
+    private fun doLeftToRight(isNewScene: Boolean, view: View) {
         view.clearAnimation()
         val parentWidth = (view.parent as ViewGroup).width
         if (isNewScene) {
-            if (!view.isVisible) {
-                view.visibility = View.VISIBLE
-                view.translationX = (-parentWidth).toFloat()
-            }
+            view.visibility = View.VISIBLE
+            view.translationX = (-parentWidth).toFloat()
+
             view.animate()
                 .translationX(0f)
                 .setDuration(animationDuration.toLong())
                 .setInterpolator(interpolator)
                 .setListener(dummyAnimationListener)
         } else {
-            if (!view.isVisible) {
-                view.visibility = View.VISIBLE
-                view.translationX = 0f
-            }
+            view.visibility = View.VISIBLE
+            view.translationX = 0f
+
             view.animate()
                 .translationX(parentWidth.toFloat())
                 .setDuration(animationDuration.toLong())
@@ -104,24 +110,22 @@ class TranslateXAnimationAdapter(
         }
     }
 
-    private fun doRightToLeft(isNewScene: Boolean, views: List<View>) = views.forEach { view ->
+    private fun doRightToLeft(isNewScene: Boolean, view: View) {
         view.clearAnimation()
         val parentWidth = (view.parent as ViewGroup).width
         if (isNewScene) {
-            if (!view.isVisible) {
-                view.visibility = View.VISIBLE
-                view.translationX = parentWidth.toFloat()
-            }
+            view.visibility = View.VISIBLE
+            view.translationX = parentWidth.toFloat()
+
             view.animate()
                 .translationX(0f)
                 .setDuration(animationDuration.toLong())
                 .setInterpolator(interpolator)
                 .setListener(dummyAnimationListener)
         } else {
-            if (!view.isVisible) {
-                view.visibility = View.VISIBLE
-                view.translationX = 0f
-            }
+            view.visibility = View.VISIBLE
+            view.translationX = 0f
+
             view.animate()
                 .translationX((-parentWidth).toFloat())
                 .setDuration(animationDuration.toLong())

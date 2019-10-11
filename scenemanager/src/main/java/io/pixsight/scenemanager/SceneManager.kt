@@ -18,6 +18,7 @@ import io.pixsight.scenemanager.annotations.BuildScenes
 import io.pixsight.scenemanager.annotations.Scene
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  *
@@ -534,9 +535,37 @@ object SceneManager {
         // inflate on demand
         if (meta.inflateOnDemand) {
             val currentSceneViews = scenesIdsToViews.get(sceneId)
-            currentSceneViews.forEach { (it as InflateOnDemandLayout).inflate() }
+            val inflatedViews = ArrayList<Pair<Int, View>>()
+            currentSceneViews.forEach {
+                if (it is InflateOnDemandLayout) {
+                    inflatedViews.add(Pair(it.id, it.inflate()!!))
+                }
+            }
+            scenesIdsToViews.forEach { _, value ->
+                inflatedViews.forEach { pair ->
+                    if (value.removeAll { it.id == pair.first }) {
+                        value.add(pair.second)
+                    }
+                }
+            }
+
+            if (inflatedViews.isNotEmpty()) {
+                inflatedViews.first().second.post {
+                    doChangeSceneAndNotify(meta, scenesIdsToViews, sceneId, animate)
+                }
+                return
+            }
         }
 
+        doChangeSceneAndNotify(meta, scenesIdsToViews, sceneId, animate)
+    }
+
+    private fun doChangeSceneAndNotify(
+        meta: ScenesMeta,
+        scenesIdsToViews: SparseArray<MutableList<View>>,
+        sceneId: Int,
+        animate: Boolean
+    ) {
         // start animations
         meta.sceneAnimationAdapter
             .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate)

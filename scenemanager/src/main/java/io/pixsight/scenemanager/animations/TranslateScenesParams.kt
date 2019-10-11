@@ -10,7 +10,7 @@ class TranslateScenesParams(scenes: SparseArray<MutableList<View>>) : ScenesPara
 
     init {
         scenes.forEach { viewSceneId, _ -> scenesIds.add(viewSceneId) }
-        scenesIds.sortDescending()
+        scenesIds.sort()
     }
 
     fun positionOf(sceneId: Int): Int = scenesIds.indexOfFirst { it == sceneId }.apply {
