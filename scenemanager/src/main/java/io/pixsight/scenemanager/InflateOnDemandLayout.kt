@@ -15,6 +15,7 @@ class InflateOnDemandLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    var useChildLayoutParams: Boolean = true
     var layoutId: Int = 0
 
     init {
@@ -29,10 +30,16 @@ class InflateOnDemandLayout @JvmOverloads constructor(
                 R.styleable.InflateOnDemandLayout_layoutId,
                 0
             )
+            this.useChildLayoutParams = a.getBoolean(
+                R.styleable.InflateOnDemandLayout_useChildLayoutParams,
+                this.useChildLayoutParams
+            )
             a.recycle()
         }
+
         if (isInEditMode) {
-            inflate()
+            // We can't modify the hierarchy of the preview, so we simply inflate the layout.
+            LayoutInflater.from(context).inflate(layoutId, this, true)
         }
     }
 
@@ -40,7 +47,6 @@ class InflateOnDemandLayout @JvmOverloads constructor(
         if (childCount == 0) {
             if (parent == null || parent !is ViewGroup) {
                 return null // ignore
-                //throw RuntimeException("InflateOnDemandLayout must have a non-null ViewGroup viewParent")
             }
             if (layoutId == 0) {
                 throw RuntimeException("InflateOnDemandLayout must have a valid layout resource")
@@ -51,14 +57,11 @@ class InflateOnDemandLayout @JvmOverloads constructor(
             val index = parent.indexOfChild(this)
             parent.removeViewInLayout(this)
 
-            parent.addView(view, index)
-
-            /*val layoutParams = layoutParams
-            if (layoutParams != null) {
-                parent.addView(view, index, layoutParams)
-            } else {
+            if (useChildLayoutParams || layoutParams == null) {
                 parent.addView(view, index)
-            }*/
+            } else {
+                parent.addView(view, index, layoutParams)
+            }
             return view
         }
         return null
