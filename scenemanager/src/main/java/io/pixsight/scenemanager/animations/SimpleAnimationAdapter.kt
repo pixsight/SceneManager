@@ -3,6 +3,7 @@ package io.pixsight.scenemanager.animations
 import android.util.SparseArray
 import android.view.View
 import androidx.core.util.forEach
+import io.pixsight.scenemanager.SceneListener
 
 import io.pixsight.scenemanager.annotations.Scene
 
@@ -40,7 +41,8 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
         scenesIdsToViews: SparseArray<MutableList<View>>,
         scenesParams: T?,
         sceneId: Int,
-        animate: Boolean
+        animate: Boolean,
+        listener: SceneListener?
     ) {
         val currentSceneViews = scenesIdsToViews.get(sceneId)
 

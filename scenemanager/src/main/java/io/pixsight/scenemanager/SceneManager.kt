@@ -570,28 +570,9 @@ object SceneManager {
     ) {
         // start animations
         meta.sceneAnimationAdapter
-            .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate)
+            .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate, meta.listener)
 
         // notify listener
         meta.currentSceneId = sceneId
-        notifyListener(scenesIdsToViews, sceneId, meta.listener)
-    }
-
-    private fun notifyListener(
-        scenesIdsToViews: SparseArray<MutableList<View>>,
-        sceneId: Int,
-        listener: SceneListener?
-    ) {
-        listener ?: return // nothing to do if no listener
-        scenesIdsToViews.forEach { viewSceneId, _ ->
-            val show = viewSceneId == sceneId
-
-            if (show) {
-                listener.onSceneDisplayed(sceneId)
-            } else {
-                listener.onSceneHidden(sceneId)
-            }
-        }
-        listener.onSceneChanged(sceneId)
     }
 }

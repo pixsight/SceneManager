@@ -2,6 +2,7 @@ package io.pixsight.scenemanager.animations
 
 import android.util.SparseArray
 import android.view.View
+import io.pixsight.scenemanager.SceneListener
 import io.pixsight.scenemanager.SceneManager
 
 /**
@@ -40,6 +41,7 @@ interface AnimationAdapter<T : ScenesParams> {
         scenesIdsToViews: SparseArray<MutableList<View>>,
         scenesParams: T?,
         sceneId: Int,
-        animate: Boolean
+        animate: Boolean,
+        listener: SceneListener?
     )
 }
