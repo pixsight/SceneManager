@@ -365,6 +365,7 @@ object SceneManager {
             val view = if (setup.inflateOnDemand) {
                 val onDemandView = InflateOnDemandLayout(root.context)
                 onDemandView.layoutId = scene.layout
+                onDemandView.id = scene.layout
                 onDemandView
             } else {
                 inflater.inflate(scene.layout, root, false)
@@ -541,10 +542,11 @@ object SceneManager {
                     inflatedViews.add(Pair(it.id, it.inflate()!!))
                 }
             }
-            scenesIdsToViews.forEach { _, value ->
+
+            scenesIdsToViews.forEach { _, sceneViews ->
                 inflatedViews.forEach { pair ->
-                    if (value.removeAll { it.id == pair.first }) {
-                        value.add(pair.second)
+                    if (sceneViews.removeAll { it.id == pair.first }) {
+                        sceneViews.add(pair.second)
                     }
                 }
             }
