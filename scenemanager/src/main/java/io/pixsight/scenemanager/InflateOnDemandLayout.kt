@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 
 
-
 class InflateOnDemandLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

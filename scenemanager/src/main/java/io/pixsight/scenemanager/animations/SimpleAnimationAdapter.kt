@@ -104,4 +104,8 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
             listener?.onSceneHidden(sceneId)
         }
     }
+
+    override fun onViewInflatedOnDemand(sceneId: Int, view: View) {
+        hideView(view, null, false, sceneId, null)
+    }
 }

@@ -539,7 +539,11 @@ object SceneManager {
             val inflatedViews = ArrayList<Pair<Int, View>>()
             currentSceneViews.forEach {
                 if (it is InflateOnDemandLayout) {
-                    inflatedViews.add(Pair(it.id, it.inflate()!!))
+                    val view = it.inflate()!!
+                    // The animation adapter may want to change the default attribute
+                    // to avoid the view from blinking. (before doChangeScene is called)
+                    meta.sceneAnimationAdapter.onViewInflatedOnDemand(sceneId, view)
+                    inflatedViews.add(Pair(it.id, view))
                 }
             }
 

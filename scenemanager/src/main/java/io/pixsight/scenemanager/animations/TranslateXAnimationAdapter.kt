@@ -16,10 +16,6 @@ class TranslateXAnimationAdapter(
     private val animationDuration: Int = 200
 ) : AnimationAdapter<TranslateScenesParams> {
 
-    override fun generateScenesParams(scenes: SparseArray<MutableList<View>>): TranslateScenesParams? {
-        return TranslateScenesParams(scenes)
-    }
-
     override fun doChangeScene(
         scenesIdsToViews: SparseArray<MutableList<View>>,
         scenesParams: TranslateScenesParams?,
@@ -187,5 +183,13 @@ class TranslateXAnimationAdapter(
             }
         }
         listener?.onSceneHidden(sceneId)
+    }
+
+    override fun onViewInflatedOnDemand(sceneId: Int, view: View) {
+        view.visibility = View.GONE
+    }
+
+    override fun generateScenesParams(scenes: SparseArray<MutableList<View>>): TranslateScenesParams? {
+        return TranslateScenesParams(scenes)
     }
 }

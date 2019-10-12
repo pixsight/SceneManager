@@ -44,4 +44,13 @@ interface AnimationAdapter<T : ScenesParams> {
         animate: Boolean,
         listener: SceneListener?
     )
+
+    /**
+     * The animation adapter may want to change the default attribute (visibility, alpha...)
+     * to avoid the view from blinking. (before doChangeScene is called)
+     *
+     * @param sceneId The scene id of the inflated view.
+     * @param view The inflated view.
+     */
+    fun onViewInflatedOnDemand(sceneId: Int, view: View)
 }
