@@ -3,11 +3,9 @@ package io.pixsight.sample.scenemanager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import io.pixsight.scenemanager.SceneCreator
-import io.pixsight.scenemanager.SceneListener
 import io.pixsight.scenemanager.SceneManager
 import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.annotations.BuildScenes
@@ -39,11 +37,6 @@ class SampleBindScenesActivity : AppCompatActivity(), View.OnClickListener {
         SceneManager.create(
             SceneCreator.with(this)
                 .animation(SceneAnimations.TRANSLATE_X)
-                .listener(object : SceneListener {
-                    override fun onSceneChanged(sceneId: Int) {
-                        Log.d("SceneListener", "New scene $sceneId")
-                    }
-                })
         )
 
         activity_no_annotations_sample_main_content.setOnClickListener(this)

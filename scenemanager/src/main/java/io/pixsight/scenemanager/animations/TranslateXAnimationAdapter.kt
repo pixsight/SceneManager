@@ -27,7 +27,7 @@ class TranslateXAnimationAdapter(
         animate: Boolean,
         listener: SceneListener?
     ) {
-        scenesParams ?: throw NullPointerException("Scenes params are null")
+        scenesParams ?: throw NullPointerException("Parameter scenesParams is null")
 
         var shouldTranslate = animate
         var lastScenePosition = 0
@@ -93,11 +93,7 @@ class TranslateXAnimationAdapter(
             }
             view.isVisible = isNewScene
         }
-        if (isNewScene) {
-            listener?.onSceneDisplayed(sceneId)
-        } else {
-            listener?.onSceneHidden(sceneId)
-        }
+        notifyAnimationEnd(isNewScene, sceneId, listener)
     }
 
     private fun doLeftToRight(isNewScene: Boolean,

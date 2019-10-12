@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.View
 import androidx.viewpager.widget.ViewPager
+import io.pixsight.scenemanager.SceneListener
 
 object SceneAnimations {
 
@@ -14,12 +15,22 @@ object SceneAnimations {
     val NO_ANIMATION: AnimationAdapter<ScenesParams> =
         object : SimpleAnimationAdapter<ScenesParams>() {
 
-            override fun showView(view: View, params: ScenesParams?, animate: Boolean) {
+            override fun showView(view: View,
+                                  params: ScenesParams?,
+                                  animate: Boolean,
+                                  sceneId: Int,
+                                  listener: SceneListener?) {
                 view.visibility = View.VISIBLE
+                notifyAnimationEnd(true, sceneId, listener)
             }
 
-            override fun hideView(view: View, params: ScenesParams?, animate: Boolean) {
+            override fun hideView(view: View,
+                                  params: ScenesParams?,
+                                  animate: Boolean,
+                                  sceneId: Int,
+                                  listener: SceneListener?) {
                 view.visibility = View.GONE
+                notifyAnimationEnd(false, sceneId, listener)
             }
         }
 
@@ -29,21 +40,51 @@ object SceneAnimations {
      */
     val FADE: AnimationAdapter<ScenesParams> = object : SimpleAnimationAdapter<ScenesParams>() {
 
-        override fun showView(view: View, params: ScenesParams?, animate: Boolean) {
+        override fun showView(view: View,
+                              params: ScenesParams?,
+                              animate: Boolean,
+                              sceneId: Int,
+                              listener: SceneListener?) {
             if (animate) {
-                AnimationHelper.showView(view)
+                view.animate()
+                    .alpha(1f)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationStart(animation: Animator) {
+                            view.visibility = View.VISIBLE
+                        }
+
+                        override fun onAnimationEnd(animation: Animator?) {
+                            notifyAnimationEnd(true, sceneId, listener)
+                        }
+                    })
             } else {
                 view.alpha = 1f
                 view.visibility = View.VISIBLE
+                notifyAnimationEnd(true, sceneId, listener)
             }
         }
 
-        override fun hideView(view: View, params: ScenesParams?, animate: Boolean) {
+        override fun hideView(view: View,
+                              params: ScenesParams?,
+                              animate: Boolean,
+                              sceneId: Int,
+                              listener: SceneListener?) {
             if (animate) {
-                AnimationHelper.hideView(view)
+                view.animate()
+                    .alpha(0f)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            view.visibility = View.INVISIBLE
+                        }
+
+                        override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                            notifyAnimationEnd(false, sceneId, listener)
+                        }
+                    })
             } else {
                 view.alpha = 0f
                 view.visibility = View.GONE
+                notifyAnimationEnd(false, sceneId, listener)
             }
         }
     }
@@ -55,7 +96,11 @@ object SceneAnimations {
     val ALPHA_ENABLE: AnimationAdapter<ScenesParams> =
         object : SimpleAnimationAdapter<ScenesParams>() {
 
-            public override fun showView(view: View, params: ScenesParams?, animate: Boolean) {
+            public override fun showView(view: View,
+                                         params: ScenesParams?,
+                                         animate: Boolean,
+                                         sceneId: Int,
+                                         listener: SceneListener?) {
                 if (animate) {
                     view.animate()
                         .alpha(1f)
@@ -64,15 +109,24 @@ object SceneAnimations {
                                 view.visibility = View.VISIBLE
                                 view.isEnabled = true
                             }
+
+                            override fun onAnimationEnd(animation: Animator?) {
+                                notifyAnimationEnd(true, sceneId, listener)
+                            }
                         })
                 } else {
                     view.alpha = 1f
                     view.visibility = View.VISIBLE
                     view.isEnabled = true
+                    notifyAnimationEnd(true, sceneId, listener)
                 }
             }
 
-            public override fun hideView(view: View, params: ScenesParams?, animate: Boolean) {
+            public override fun hideView(view: View,
+                                         params: ScenesParams?,
+                                         animate: Boolean,
+                                         sceneId: Int,
+                                         listener: SceneListener?) {
                 if (animate) {
                     view.animate()
                         .alpha(0f)
@@ -81,11 +135,16 @@ object SceneAnimations {
                                 view.visibility = View.INVISIBLE
                                 view.isEnabled = false
                             }
+
+                            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                                notifyAnimationEnd(false, sceneId, listener)
+                            }
                         })
                 } else {
                     view.alpha = 0f
                     view.visibility = View.INVISIBLE
                     view.isEnabled = false
+                    notifyAnimationEnd(false, sceneId, listener)
                 }
             }
         }
