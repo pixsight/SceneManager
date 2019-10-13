@@ -17,7 +17,7 @@ internal class ScenesMeta private constructor(
 ) {
     val scenesIdsToViews: SparseArray<MutableList<View>> = SparseArray()
     var scenesParams: ScenesParams? = null
-    var currentSceneId = Integer.MIN_VALUE
+    var currentSceneId = Int.MIN_VALUE
 
     constructor(
         root: ViewGroup,
@@ -58,8 +58,8 @@ internal class ScenesMeta private constructor(
     }
 
     private fun assertValidSceneId(sceneId: Int) {
-        if (sceneId == Integer.MIN_VALUE) {
-            throw RuntimeException("Invalid scene id, do not use Integer.MIN_VALUE.")
+        if (sceneId == Int.MIN_VALUE) {
+            throw RuntimeException("Invalid scene id, do not use Int.MIN_VALUE.")
         }
     }
 }

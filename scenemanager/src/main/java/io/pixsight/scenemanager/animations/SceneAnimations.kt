@@ -155,4 +155,4 @@ object SceneAnimations {
     @JvmStatic
     val TRANSLATE_X: AnimationAdapter<TranslateScenesParams> = TranslateXAnimationAdapter()
 
-}// Not instantiable
+}

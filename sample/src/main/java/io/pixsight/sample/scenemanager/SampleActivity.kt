@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import io.pixsight.scenemanager.SceneManager
 import io.pixsight.scenemanager.annotations.BuildScenes
 import io.pixsight.scenemanager.annotations.Scene
+import kotlinx.android.synthetic.main.hidden.*
 import kotlinx.android.synthetic.main.placeholder.*
 import kotlinx.android.synthetic.main.sample_activity_main.*
 import kotlinx.android.synthetic.main.sample_activity_main.sample_switch_to_main
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.spinner.*
     Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
     Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
     Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view),
+    Scene(scene = SampleActivity.SAMPLE_HIDDEN, layout = R.layout.hidden),
     inflateOnDemand = true,
     first = Scene.MAIN
 )
@@ -45,6 +47,8 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
         sample_switch_to_existing_layout?.setOnClickListener(this)
         sample_switch_to_bind_scenes?.setOnClickListener(this)
         sample_switch_to_iod?.setOnClickListener(this)
+        sample_hide?.setOnClickListener(this)
+        restore_from_hidden_bt?.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -52,6 +56,7 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
             R.id.sample_switch_to_main,
             R.id.sample_switch_to_activity,
             R.id.go_to_main_from_loader,
+            R.id.restore_from_hidden_bt,
             R.id.go_to_main_from_placeholder ->
                 SceneManager.scene(this, Scene.MAIN)
             R.id.sample_switch_to_progress -> SceneManager.scene(this, Scene.SPINNER)
@@ -68,6 +73,11 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
                 SampleBindScenesActivity.startActivity(this)
             R.id.sample_switch_to_iod ->
                 SampleInflateOnDemandActivity.startActivity(this)
+            R.id.sample_hide -> {
+                SceneManager.scene(this, SAMPLE_HIDDEN, true) // load a scene with a button so you can come back
+                SceneManager.hide(this, true) // all is now hidden
+                SceneManager.restore(this, true) // restore to SAMPLE_HIDDEN
+            }
             else -> throw IllegalArgumentException("Nope")
         }
 
@@ -80,7 +90,7 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
     }
 
     companion object {
-
         const val SAMPLE_WITH_VIEW = 3
+        const val SAMPLE_HIDDEN = 4
     }
 }

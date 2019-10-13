@@ -48,7 +48,7 @@ object SceneManager {
             context,
             reference,
             SceneAnimations.FADE,
-            FrameLayout(context), null
+            FrameLayout(context)
         )
     }
 
@@ -70,7 +70,7 @@ object SceneManager {
             context,
             reference,
             adapter,
-            FrameLayout(context), null
+            FrameLayout(context)
         )
     }
 
@@ -90,7 +90,7 @@ object SceneManager {
             activity,
             activity,
             SceneAnimations.FADE,
-            FrameLayout(activity), null
+            FrameLayout(activity)
         )
         activity.setContentView(root)
         return root
@@ -112,7 +112,7 @@ object SceneManager {
         activity: Activity,
         adapter: AnimationAdapter<ScenesParams>?
     ): ViewGroup {
-        val root = doCreate(activity, activity, adapter, FrameLayout(activity), null)
+        val root = doCreate(activity, activity, adapter, FrameLayout(activity))
         activity.setContentView(root)
         return root
     }
@@ -129,7 +129,7 @@ object SceneManager {
      * @param view a [ViewGroup] that has a [BuildScenes]
      */
     fun create(view: ViewGroup): ViewGroup {
-        return doCreate(view.context, view, SceneAnimations.FADE, view, null)
+        return doCreate(view.context, view, SceneAnimations.FADE, view)
     }
 
     /**
@@ -148,7 +148,7 @@ object SceneManager {
         view: ViewGroup,
         adapter: AnimationAdapter<ScenesParams>?
     ): ViewGroup {
-        return doCreate(view.context, view, adapter, view, null)
+        return doCreate(view.context, view, adapter, view)
     }
 
     /**
@@ -165,8 +165,7 @@ object SceneManager {
             fragment.activity,
             fragment,
             SceneAnimations.FADE,
-            FrameLayout(fragment.activity),
-            null
+            FrameLayout(fragment.activity)
         )
     }
 
@@ -188,7 +187,7 @@ object SceneManager {
             fragment.activity,
             fragment,
             adapter,
-            FrameLayout(fragment.activity), null
+            FrameLayout(fragment.activity)
         )
     }
 
@@ -205,7 +204,7 @@ object SceneManager {
             fragment.activity!!,
             fragment,
             SceneAnimations.FADE,
-            FrameLayout(fragment.activity!!), null
+            FrameLayout(fragment.activity!!)
         )
     }
 
@@ -226,7 +225,7 @@ object SceneManager {
             fragment.activity!!,
             fragment,
             adapter,
-            FrameLayout(fragment.activity!!), null
+            FrameLayout(fragment.activity!!)
         )
     }
 
@@ -348,8 +347,7 @@ object SceneManager {
         context: Context,
         reference: Any,
         adapter: AnimationAdapter<ScenesParams>?,
-        root: ViewGroup,
-        listener: SceneListener?
+        root: ViewGroup
     ): ViewGroup {
         var animationAdapter = adapter
         // Retrieve annotations
@@ -374,7 +372,7 @@ object SceneManager {
         }
 
         // Save the scene's meta data
-        val meta = ScenesMeta(root, animationAdapter, scenes, listener, setup.inflateOnDemand)
+        val meta = ScenesMeta(root, animationAdapter, scenes, null, setup.inflateOnDemand)
         sScenesMeta.add(
             Pair(
                 WeakReference(reference),
@@ -393,107 +391,24 @@ object SceneManager {
     /**
      * Switch to another [Scene].
      *
-     * @param reference The reference.
+     * @param holder The holder. Can be an [Activity], [ViewGroup], [Fragment] or anything else
      * @param scene The scene id. See [Scene.scene].
      */
-    fun scene(reference: Any, scene: Int) {
-        doChangeScene(reference, scene)
-    }
+    fun scene(holder: Any, scene: Int, animate: Boolean = true) = doChangeScene(holder, scene, animate)
 
     /**
-     * Switch to another [Scene].
+     * Hide all [Scene].
      *
-     * @param reference The reference.
-     * @param scene The scene id. See [Scene.scene].
+     * @param holder The holder. Can be an [Activity], [ViewGroup], [Fragment] or anything else
      */
-    fun scene(reference: Any, scene: Int, animate: Boolean) {
-        doChangeScene(reference, scene, animate)
-    }
+    fun hide(holder: Any, animate: Boolean = true) = doChangeScene(holder, Scene.NONE, animate)
 
     /**
-     * Switch to another [Scene].
-     *
-     * @param activity The parent activity.
-     * @param scene The scene id. See [Scene.scene].
+     * Restore the last scene after [hide].
      */
-    fun scene(activity: Activity, scene: Int) {
-        doChangeScene(activity, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param view The holder view.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(view: ViewGroup, scene: Int) {
-        doChangeScene(view, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    @Suppress("DEPRECATION")
-    fun scene(fragment: Fragment, scene: Int) {
-        doChangeScene(fragment, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(fragment: androidx.fragment.app.Fragment, scene: Int) {
-        doChangeScene(fragment, scene)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param activity The parent activity.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(activity: Activity, scene: Int, animate: Boolean) {
-        doChangeScene(activity, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param view The holder view.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(view: ViewGroup, scene: Int, animate: Boolean) {
-        doChangeScene(view, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    @Suppress("DEPRECATION")
-    fun scene(fragment: Fragment, scene: Int, animate: Boolean) {
-        doChangeScene(fragment, scene, animate)
-    }
-
-    /**
-     * Switch to another [Scene].
-     *
-     * @param fragment The holder fragment.
-     * @param scene The scene id. See [Scene.scene].
-     */
-    fun scene(
-        fragment: androidx.fragment.app.Fragment,
-        scene: Int,
-        animate: Boolean
-    ) {
-        doChangeScene(fragment, scene, animate)
+    fun restore(holder: Any, animate: Boolean = true) {
+        val meta = safeGetMetaData(holder) ?: return
+        doChangeSceneAndNotify(meta, meta.scenesIdsToViews, meta.currentSceneId, animate)
     }
 
     private fun getValidFirstScene(setup: BuildScenes, scenes: Array<out Scene>): Int {
@@ -529,15 +444,18 @@ object SceneManager {
         return sScenesMeta.firstOrNull { (ref, _) -> ref.get() == obj }
     }
 
-    private fun doChangeScene(obj: Any, sceneId: Int, animate: Boolean = true) {
+    private fun doChangeScene(obj: Any, sceneId: Int, animate: Boolean) {
         val meta = safeGetMetaData(obj) ?: return
+        if (sceneId == meta.currentSceneId) {
+            return // nothing to do, the scene is already displayed
+        }
         val scenesIdsToViews = meta.scenesIdsToViews
 
         // inflate on demand
         if (meta.inflateOnDemand) {
             val currentSceneViews = scenesIdsToViews.get(sceneId)
             val inflatedViews = ArrayList<Pair<Int, View>>()
-            currentSceneViews.forEach {
+            currentSceneViews?.forEach {
                 if (it is InflateOnDemandLayout) {
                     val view = it.inflate()!!
                     // The animation adapter may want to change the default attribute
@@ -554,13 +472,6 @@ object SceneManager {
                     }
                 }
             }
-
-            if (inflatedViews.isNotEmpty()) {
-                inflatedViews.first().second.post {
-                    doChangeSceneAndNotify(meta, scenesIdsToViews, sceneId, animate)
-                }
-                return
-            }
         }
 
         doChangeSceneAndNotify(meta, scenesIdsToViews, sceneId, animate)
@@ -570,13 +481,23 @@ object SceneManager {
         meta: ScenesMeta,
         scenesIdsToViews: SparseArray<MutableList<View>>,
         sceneId: Int,
-        animate: Boolean
-    ) {
+        animate: Boolean) {
+        // Cancel all pending animations
+        scenesIdsToViews.forEach { _, value ->
+            value.forEach {
+                it.animation?.cancel()
+                it.animate().setListener(null).cancel()
+                it.clearAnimation()
+            }
+        }
+
         // start animations
         meta.sceneAnimationAdapter
             .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate, meta.listener)
 
-        // notify listener
-        meta.currentSceneId = sceneId
+        // Update meta current scene
+        if (sceneId != Scene.NONE) {
+            meta.currentSceneId = sceneId
+        }
     }
 }
