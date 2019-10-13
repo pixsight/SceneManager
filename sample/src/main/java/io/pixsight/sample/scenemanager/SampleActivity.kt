@@ -16,12 +16,12 @@ import kotlinx.android.synthetic.main.sample_view_main.*
 import kotlinx.android.synthetic.main.spinner.*
 
 @BuildScenes(
-    Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
-    Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor),
-    Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
-    Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
-    Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view),
-    Scene(scene = SampleActivity.SAMPLE_HIDDEN, layout = R.layout.hidden),
+    Scene(id = Scene.MAIN, layout = R.layout.sample_activity_main),
+    Scene(id = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor),
+    Scene(id = Scene.SPINNER, layout = R.layout.spinner),
+    Scene(id = Scene.PLACEHOLDER, layout = R.layout.placeholder),
+    Scene(id = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view),
+    Scene(id = SampleActivity.SAMPLE_HIDDEN, layout = R.layout.hidden),
     inflateOnDemand = true,
     first = Scene.MAIN
 )

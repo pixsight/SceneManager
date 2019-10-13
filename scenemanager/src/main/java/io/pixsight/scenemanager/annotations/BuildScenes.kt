@@ -23,7 +23,7 @@ annotation class BuildScenes(
      */
     vararg val value: Scene,
     /**
-     * The default scene id. See [Scene.scene].
+     * The default scene id. See [Scene.id].
      * The [Scene] associated to this id will be the displayed first.
      */
     val first: Int = Scene.MAIN,

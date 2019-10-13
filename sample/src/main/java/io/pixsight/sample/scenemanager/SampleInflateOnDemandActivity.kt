@@ -18,16 +18,16 @@ import kotlinx.android.synthetic.main.spinner.*
 
 @BuildScenes(
     value = [
-        Scene(scene = Scene.MAIN, viewIds = intArrayOf(
+        Scene(id = Scene.MAIN, viewIds = intArrayOf(
             R.id.activity_no_annotations_sample_main_content,
             R.id.activity_no_annotations_sample_main_content_another_view
         )),
-        Scene(scene = Scene.SPINNER, viewIds = intArrayOf(
+        Scene(id = Scene.SPINNER, viewIds = intArrayOf(
             R.id.activity_no_annotations_sample_main_content_another_view,
             R.id.activity_no_annotations_sample_loader
 
         )),
-        Scene(scene = Scene.PLACEHOLDER, viewIds = intArrayOf(
+        Scene(id = Scene.PLACEHOLDER, viewIds = intArrayOf(
             R.id.activity_no_annotations_sample_placeholder
         ))
     ],

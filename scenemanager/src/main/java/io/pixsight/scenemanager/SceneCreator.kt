@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.ScenesParams
+import io.pixsight.scenemanager.annotations.Scene
 
 /**
  *
@@ -34,7 +35,7 @@ class SceneCreator private constructor(
         private set
     internal var adapter: AnimationAdapter<ScenesParams>? = null
         private set
-    internal var firstSceneId: Int = -1
+    internal var firstSceneId: Int = Scene.NONE
         private set
     internal val scenes: MutableList<Pair<Int, View>> = mutableListOf()
 

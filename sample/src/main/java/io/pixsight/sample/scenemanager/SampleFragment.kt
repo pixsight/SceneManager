@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.sample_fragment_main.*
 
 @BuildScenes(
     value = [
-        Scene(scene = Scene.MAIN, layout = R.layout.sample_fragment_main),
-        Scene(scene = Scene.SPINNER, layout = R.layout.fragment_loader),
-        Scene(scene = Scene.PLACEHOLDER, layout = R.layout.fragment_placeholder)
+        Scene(id = Scene.MAIN, layout = R.layout.sample_fragment_main),
+        Scene(id = Scene.SPINNER, layout = R.layout.fragment_loader),
+        Scene(id = Scene.PLACEHOLDER, layout = R.layout.fragment_placeholder)
     ],
     first = Scene.MAIN
 )

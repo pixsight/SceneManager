@@ -27,7 +27,7 @@ internal class ScenesMeta private constructor(
         inflateOnDemand: Boolean
     ) : this(sceneAnimationAdapter, listener, inflateOnDemand) {
         scenes.forEachIndexed { i, scene ->
-            val sceneId = scene.scene
+            val sceneId = scene.id
             var list = scenesIdsToViews.get(sceneId)
             if (list == null) {
                 assertValidSceneId(sceneId)

@@ -9,28 +9,28 @@ interface SceneListener {
     /**
      * Triggered when the out animation of the given sceneId begin
      *
-     * @param sceneId the new scene that is displayed to the user.
+     * @param sceneId the scene that is about to be hidden.
      */
     fun onSceneHiding(sceneId: Int) = Unit
 
     /**
      * Triggered when the out animation of the given sceneId finish
      *
-     * @param sceneId the new scene that is displayed to the user.
+     * @param sceneId the scene that has been hidden.
      */
     fun onSceneHidden(sceneId: Int) = Unit
 
     /**
      * Triggered when the in animation of the given sceneId begin
      *
-     * @param sceneId the new scene that is displayed to the user.
+     * @param sceneId the scene that is about to be displayed.
      */
     fun onSceneDisplaying(sceneId: Int) = Unit
 
     /**
      * Triggered when the in animation of the given sceneId finish
      *
-     * @param sceneId the new scene that is displayed to the user.
+     * @param sceneId the scene that has been displayed.
      */
     fun onSceneDisplayed(sceneId: Int) = Unit
 }

@@ -240,7 +240,7 @@ object SceneManager {
 
         scenes?.forEach { scene ->
             scene.viewIds.forEach {
-                creator.add(scene.scene, it)
+                creator.add(scene.id, it)
             }
         }
 
@@ -262,10 +262,10 @@ object SceneManager {
             )
         )
 
-        if (setup != null || creator.firstSceneId != -1) {
+        if (setup != null || creator.firstSceneId != Scene.NONE) {
             doChangeScene(
                 creator.reference,
-                if (creator.firstSceneId == -1) setup!!.first else creator.firstSceneId,
+                if (creator.firstSceneId == Scene.NONE) setup!!.first else creator.firstSceneId,
                 false
             )
         }
@@ -392,7 +392,7 @@ object SceneManager {
      * Switch to another [Scene].
      *
      * @param holder The holder. Can be an [Activity], [ViewGroup], [Fragment] or anything else
-     * @param scene The scene id. See [Scene.scene].
+     * @param scene The scene id. See [Scene.id].
      */
     fun scene(holder: Any, scene: Int, animate: Boolean = true) = doChangeScene(holder, scene, animate)
 
@@ -414,9 +414,9 @@ object SceneManager {
     private fun getValidFirstScene(setup: BuildScenes, scenes: Array<out Scene>): Int {
         val firstScene = setup.first
         // the default scene specified by the user is valid
-        return scenes.firstOrNull { it.scene == firstScene }?.scene
+        return scenes.firstOrNull { it.id == firstScene }?.id
         // the default scene is not valid
-            ?: scenes[0].scene
+            ?: scenes[0].id
     }
 
     private fun safeGetBuildAnnotation(obj: Any): BuildScenes {
@@ -455,19 +455,20 @@ object SceneManager {
         if (meta.inflateOnDemand) {
             val currentSceneViews = scenesIdsToViews.get(sceneId)
             val inflatedViews = ArrayList<Pair<Int, View>>()
-            currentSceneViews?.forEach {
-                if (it is InflateOnDemandLayout) {
-                    val view = it.inflate()!!
+            currentSceneViews?.forEach { layout ->
+                if (layout is InflateOnDemandLayout) {
+                    val view = layout.inflate()!!
                     // The animation adapter may want to change the default attribute
                     // to avoid the view from blinking. (before doChangeScene is called)
                     meta.sceneAnimationAdapter.onViewInflatedOnDemand(sceneId, view)
-                    inflatedViews.add(Pair(it.id, view))
+                    inflatedViews.add(Pair(layout.id, view))
                 }
             }
 
+            // Replace InflateOnDemandLayout byt the newly inflated view in the metas
             scenesIdsToViews.forEach { _, sceneViews ->
                 inflatedViews.forEach { pair ->
-                    if (sceneViews.removeAll { it.id == pair.first }) {
+                    if (sceneViews.removeAll { view -> view.id == pair.first }) {
                         sceneViews.add(pair.second)
                     }
                 }
@@ -483,11 +484,11 @@ object SceneManager {
         sceneId: Int,
         animate: Boolean) {
         // Cancel all pending animations
-        scenesIdsToViews.forEach { _, value ->
-            value.forEach {
-                it.animation?.cancel()
-                it.animate().setListener(null).cancel()
-                it.clearAnimation()
+        scenesIdsToViews.forEach { _, views ->
+            views.forEach { view ->
+                view.animation?.cancel()
+                view.animate().setListener(null).cancel()
+                view.clearAnimation()
             }
         }
 

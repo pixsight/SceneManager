@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 
 /**
  *
- * Create a scene by providing an id [Scene.scene]
+ * Create a scene by providing an id [Scene.id]
  * and a layout [Scene.layout].
  *
  *
@@ -17,7 +17,7 @@ annotation class Scene(
     /**
      * The unique identifier associated to this scene.
      */
-    val scene: Int,
+    val id: Int,
     /**
      * The [LayoutRes] that will be inflated for this scene
      */
@@ -28,7 +28,7 @@ annotation class Scene(
     companion object {
         /**
          *
-         * Those constants can be reused by your application for [Scene.scene].
+         * Those constants can be reused by your application for [Scene.id].
          * You can of course also use your own ids.
          *
          *
