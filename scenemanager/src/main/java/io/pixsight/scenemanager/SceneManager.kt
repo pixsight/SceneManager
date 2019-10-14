@@ -513,25 +513,25 @@ object SceneManager {
         listener ?: return null
         return object : SceneListener {
             override fun onSceneHiding(sceneId: Int) {
-                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                if (sceneId == lastSceneId) {
                     listener.onSceneHiding(sceneId)
                 }
             }
 
             override fun onSceneHidden(sceneId: Int) {
-                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                if (sceneId == lastSceneId) {
                     listener.onSceneHidden(sceneId)
                 }
             }
 
             override fun onSceneDisplaying(sceneId: Int) {
-                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                if (sceneId == newSceneId) {
                     listener.onSceneDisplaying(sceneId)
                 }
             }
 
             override fun onSceneDisplayed(sceneId: Int) {
-                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                if (sceneId == newSceneId) {
                     listener.onSceneDisplayed(sceneId)
                 }
             }
