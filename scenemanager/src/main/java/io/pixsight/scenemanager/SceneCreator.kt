@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import io.pixsight.scenemanager.animations.AnimationAdapter
 import io.pixsight.scenemanager.animations.ScenesParams
+import io.pixsight.scenemanager.annotations.Scene
 
 /**
  *
@@ -26,13 +27,15 @@ import io.pixsight.scenemanager.animations.ScenesParams
  */
 class SceneCreator private constructor(
     internal val reference: Any,
-    private val mRootView: ViewGroup
+    private val rootView: ViewGroup
 ) {
+    internal var inflateOnDemand: Boolean = false
+        private set
     internal var listener: SceneListener? = null
         private set
     internal var adapter: AnimationAdapter<ScenesParams>? = null
         private set
-    internal var firstSceneId: Int = -1
+    internal var firstSceneId: Int = Scene.NONE
         private set
     internal val scenes: MutableList<Pair<Int, View>> = mutableListOf()
 
@@ -70,6 +73,11 @@ class SceneCreator private constructor(
         return this
     }
 
+    fun inflateOnDemand(inflateOnDemand: Boolean): SceneCreator {
+        this.inflateOnDemand = inflateOnDemand
+        return this
+    }
+
     /**
      * Create a new scene by providing a view and sceneId.
      *
@@ -90,7 +98,7 @@ class SceneCreator private constructor(
      * @return a [SceneCreator] for more configurations.
      */
     fun add(sceneId: Int, @IdRes idRes: Int): SceneCreator {
-        return add(sceneId, mRootView.findViewById<View>(idRes))
+        return add(sceneId, rootView.findViewById<View>(idRes))
     }
 
     companion object {
