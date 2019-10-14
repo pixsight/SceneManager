@@ -3,6 +3,7 @@ package io.pixsight.scenemanager.animations
 import android.util.SparseArray
 import android.view.View
 import androidx.core.util.forEach
+import io.pixsight.scenemanager.SceneListener
 
 import io.pixsight.scenemanager.annotations.Scene
 
@@ -23,8 +24,14 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
      * @param animate true if you can animate the transition.
      * false if an animation is not recommended. Ex: When the default scene is
      * displayed.
+     * @param sceneId The sceneId of the view to animate
+     * @param listener The listener to pass to [notifyAnimationEnd] once the animation has ended
      */
-    internal abstract fun showView(view: View, params: T?, animate: Boolean)
+    internal abstract fun showView(view: View,
+                                   params: T?,
+                                   animate: Boolean,
+                                   sceneId: Int,
+                                   listener: SceneListener?)
 
     /**
      * Called when a scene has to be hidden.
@@ -33,47 +40,72 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
      * @param animate true if you can animate the transition.
      * false if an animation is not recommended. Ex: When the default scene is
      * displayed.
+     * @param sceneId The sceneId of the view to animate
+     * @param listener The listener to pass to [notifyAnimationEnd] once the animation has ended
      */
-    internal abstract fun hideView(view: View, params: T?, animate: Boolean)
+    internal abstract fun hideView(view: View,
+                                   params: T?,
+                                   animate: Boolean,
+                                   sceneId: Int,
+                                   listener: SceneListener?)
 
     override fun doChangeScene(
         scenesIdsToViews: SparseArray<MutableList<View>>,
         scenesParams: T?,
         sceneId: Int,
-        animate: Boolean
+        animate: Boolean,
+        listener: SceneListener?
     ) {
-        val currentSceneViews = scenesIdsToViews.get(sceneId)
+        // current scene's views are displayed even if present in another scene
+        val forceShowIfHidden = scenesIdsToViews.get(sceneId)
 
         scenesIdsToViews.forEach { viewSceneId, views ->
+            // Notify listener
+            val isNewScene = viewSceneId == sceneId
+            if (isNewScene) {
+                listener?.onSceneDisplaying(viewSceneId)
+            } else {
+                listener?.onSceneHiding(viewSceneId)
+            }
+
             // do change scene
             val show = viewSceneId == sceneId
-            showOrHideView(show, views, currentSceneViews, scenesParams, animate)
-        }
-    }
 
-    private fun showOrHideView(
-        show: Boolean,
-        views: List<View>,
-        forceShowIfHidden: List<View>?,
-        scenesParams: T?,
-        animate: Boolean
-    ) = views.forEach { view ->
-        if (!show && forceShowIfHidden != null && forceShowIfHidden.contains(view)) {
-            return@forEach // Skip an forceShowIfHidden view
+            views.forEach { view ->
+                if (!show && forceShowIfHidden != null && forceShowIfHidden.contains(view)) {
+                    return // Skip an forceShowIfHidden view
+                }
+                // notify the listener only on the last view
+                val endListener = if (views.last() == view) listener else null
+                showOrHideView(show, view, scenesParams, animate, viewSceneId, endListener)
+            }
         }
-        showOrHideView(show, view, scenesParams, animate)
     }
 
     private fun showOrHideView(
         show: Boolean,
         views: View,
         scenesParams: T?,
-        animate: Boolean
+        animate: Boolean,
+        sceneId: Int,
+        listener: SceneListener?
     ) {
         if (show) {
-            showView(views, scenesParams, animate)
+            showView(views, scenesParams, animate, sceneId, listener)
         } else {
-            hideView(views, scenesParams, animate)
+            hideView(views, scenesParams, animate, sceneId, listener)
         }
+    }
+
+    protected fun notifyAnimationEnd(isDisplayed: Boolean, sceneId: Int, listener: SceneListener?) {
+        if (isDisplayed) {
+            listener?.onSceneDisplayed(sceneId)
+        } else {
+            listener?.onSceneHidden(sceneId)
+        }
+    }
+
+    override fun onViewInflatedOnDemand(sceneId: Int, view: View) {
+        hideView(view, null, false, sceneId, null)
     }
 }

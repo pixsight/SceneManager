@@ -13,9 +13,9 @@ import kotlinx.android.synthetic.main.spinner.view.*
 
 @BuildScenes(
     value = [
-        Scene(scene = Scene.MAIN, layout = R.layout.sample_view_main),
-        Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
-        Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
+        Scene(id = Scene.MAIN, layout = R.layout.sample_view_main),
+        Scene(id = Scene.SPINNER, layout = R.layout.spinner),
+        Scene(id = Scene.PLACEHOLDER, layout = R.layout.placeholder)
     ],
     first = Scene.MAIN
 )

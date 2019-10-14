@@ -2,6 +2,7 @@ package io.pixsight.scenemanager.animations
 
 import android.util.SparseArray
 import android.view.View
+import io.pixsight.scenemanager.SceneListener
 import io.pixsight.scenemanager.SceneManager
 
 /**
@@ -40,6 +41,16 @@ interface AnimationAdapter<T : ScenesParams> {
         scenesIdsToViews: SparseArray<MutableList<View>>,
         scenesParams: T?,
         sceneId: Int,
-        animate: Boolean
+        animate: Boolean,
+        listener: SceneListener?
     )
+
+    /**
+     * The animation adapter may want to change the default attribute (visibility, alpha...)
+     * to avoid the view from blinking. (before doChangeScene is called)
+     *
+     * @param sceneId The scene id of the inflated view.
+     * @param view The inflated view.
+     */
+    fun onViewInflatedOnDemand(sceneId: Int, view: View)
 }

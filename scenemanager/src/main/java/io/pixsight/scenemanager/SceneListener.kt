@@ -7,16 +7,28 @@ package io.pixsight.scenemanager
 interface SceneListener {
 
     /**
-     * This method is called when the current scene is hidden.
+     * Triggered when the out animation of the given sceneId begin
      *
-     * Note that this method is not called if there is no current scene set
+     * @param sceneId the scene that is about to be hidden.
+     */
+    fun onSceneHiding(sceneId: Int) = Unit
+
+    /**
+     * Triggered when the out animation of the given sceneId finish
      *
      * @param sceneId the scene that has been hidden.
      */
     fun onSceneHidden(sceneId: Int) = Unit
 
     /**
-     * This method is called when a scene is displayed.
+     * Triggered when the in animation of the given sceneId begin
+     *
+     * @param sceneId the scene that is about to be displayed.
+     */
+    fun onSceneDisplaying(sceneId: Int) = Unit
+
+    /**
+     * Triggered when the in animation of the given sceneId finish
      *
      * @param sceneId the scene that has been displayed.
      */

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_margin="@dimen/default_padding"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/pixsight_red"
+        tools:ignore="ContentDescription" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <io.pixsight.scenemanager.InflateOnDemandLayout
+            android:id="@+id/activity_no_annotations_sample_main_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="150dp"
+            app:useChildLayoutParams="false"
+            app:layoutId="@layout/main" />
+
+        <io.pixsight.scenemanager.InflateOnDemandLayout
+            android:id="@+id/activity_no_annotations_sample_loader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutId="@layout/spinner" />
+
+        <io.pixsight.scenemanager.InflateOnDemandLayout
+            android:id="@+id/activity_no_annotations_sample_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutId="@layout/placeholder" />
+    </FrameLayout>
+
+    <io.pixsight.scenemanager.InflateOnDemandLayout
+        android:id="@+id/activity_no_annotations_sample_main_content_another_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutId="@layout/sample_activity_main_second_anchor" />
+</FrameLayout>
