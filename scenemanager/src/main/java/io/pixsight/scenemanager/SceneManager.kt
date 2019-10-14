@@ -465,7 +465,7 @@ object SceneManager {
                 }
             }
 
-            // Replace InflateOnDemandLayout byt the newly inflated view in the metas
+            // Replace InflateOnDemandLayout by the newly inflated view in the metas
             scenesIdsToViews.forEach { _, sceneViews ->
                 inflatedViews.forEach { pair ->
                     if (sceneViews.removeAll { view -> view.id == pair.first }) {
@@ -493,12 +493,48 @@ object SceneManager {
         }
 
         // start animations
-        meta.sceneAnimationAdapter
-            .doChangeScene(scenesIdsToViews, meta.scenesParams, sceneId, animate, meta.listener)
+        meta.sceneAnimationAdapter.doChangeScene(
+            scenesIdsToViews,
+            meta.scenesParams,
+            sceneId,
+            animate,
+            createInternalListener(sceneId, meta.currentSceneId, meta.listener)
+        )
 
         // Update meta current scene
         if (sceneId != Scene.NONE) {
             meta.currentSceneId = sceneId
+        }
+    }
+
+    private fun createInternalListener(newSceneId: Int,
+                                       lastSceneId: Int,
+                                       listener: SceneListener?): SceneListener? {
+        listener ?: return null
+        return object : SceneListener {
+            override fun onSceneHiding(sceneId: Int) {
+                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                    listener.onSceneHiding(sceneId)
+                }
+            }
+
+            override fun onSceneHidden(sceneId: Int) {
+                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                    listener.onSceneHidden(sceneId)
+                }
+            }
+
+            override fun onSceneDisplaying(sceneId: Int) {
+                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                    listener.onSceneDisplaying(sceneId)
+                }
+            }
+
+            override fun onSceneDisplayed(sceneId: Int) {
+                if (sceneId == newSceneId || sceneId == lastSceneId) {
+                    listener.onSceneDisplayed(sceneId)
+                }
+            }
         }
     }
 }
