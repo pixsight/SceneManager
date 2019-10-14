@@ -37,7 +37,15 @@ annotation class Scene(
          */
         const val MAIN = 0x420
         const val SPINNER = 0x421
-        const val PLACEHOLDER = 0x423
+        const val PLACEHOLDER = 0x422
+        const val SUCCESS = 0x423
+        const val ERROR = 0x424
+        const val EMPTY = 0x425
+        const val EMPTY_PLACEHOLDER = 0x426
+        const val LOADING = 0x427
+        const val RETRY = 0x428
+        const val UNKNOWN = 0x429
+        const val CAMERA = 0x40A
         internal const val NONE = Int.MIN_VALUE
     }
 }
