@@ -14,18 +14,27 @@ import kotlinx.android.synthetic.main.activity_no_annotations_sample.*
 
 @BuildScenes(
     value = [
-        Scene(id = Scene.MAIN, viewIds = intArrayOf(
-            R.id.activity_no_annotations_sample_main_content,
-            R.id.activity_no_annotations_sample_main_content_another_view
-        )),
-        Scene(id = Scene.SPINNER, viewIds = intArrayOf(
-            R.id.activity_no_annotations_sample_main_content_another_view,
-            R.id.activity_no_annotations_sample_loader
+        Scene(
+            id = Scene.MAIN,
+            viewIds = intArrayOf(
+                R.id.activity_no_annotations_sample_main_content,
+                R.id.activity_no_annotations_sample_main_content_another_view
+            )
+        ),
+        Scene(
+            id = Scene.SPINNER,
+            viewIds = intArrayOf(
+                R.id.activity_no_annotations_sample_main_content_another_view,
+                R.id.activity_no_annotations_sample_loader
 
-        )),
-        Scene(id = Scene.PLACEHOLDER, viewIds = intArrayOf(
-            R.id.activity_no_annotations_sample_placeholder
-        ))
+            )
+        ),
+        Scene(
+            id = Scene.PLACEHOLDER,
+            viewIds = intArrayOf(
+                R.id.activity_no_annotations_sample_placeholder
+            )
+        )
     ],
     first = Scene.PLACEHOLDER
 )

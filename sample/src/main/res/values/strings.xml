@@ -14,8 +14,8 @@
     <string name="sample_fragment_title">Sample with fragment</string>
     <string name="default_generic_error">Fake error, please retry</string>
     <string name="fake_main_content_text">This is a dummy main content !\nclick here to load more</string>
-    <string name="sample_switch_to_existing_layout">Sample with existing layout (using SceneScreator)</string>
-    <string name="sample_switch_to_bind_scenes">Sample with existing layout (using @BindScenes)</string>
+    <string name="sample_switch_to_existing_layout">Sample using SceneScreator</string>
+    <string name="sample_switch_to_bind_scenes">Sample with existing layout with @BuildScenes</string>
     <string name="sample_switch_to_iod">Sample with inflate on demand</string>
     <string name="sample_hide">Hide All</string>
 </resources>

@@ -461,6 +461,7 @@ object SceneManager {
                     // The animation adapter may want to change the default attribute
                     // to avoid the view from blinking. (before doChangeScene is called)
                     meta.sceneAnimationAdapter.onViewInflatedOnDemand(sceneId, view)
+                    meta.listener?.onViewInflated(sceneId, view)
                     inflatedViews.add(Pair(layout.id, view))
                 }
             }

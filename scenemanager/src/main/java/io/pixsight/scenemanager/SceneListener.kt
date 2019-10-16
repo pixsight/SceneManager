@@ -1,5 +1,7 @@
 package io.pixsight.scenemanager
 
+import android.view.View
+
 /**
  * This listener can be used with [SceneManager] to listen
  * the events.
@@ -33,4 +35,13 @@ interface SceneListener {
      * @param sceneId the scene that has been displayed.
      */
     fun onSceneDisplayed(sceneId: Int) = Unit
+
+    /**
+     * Triggered when a scene is inflated. This event is triggered only if inflate on demand
+     * has been set to true.
+     *
+     * @param sceneId The scene that has been inflated.
+     * @param view The inflated view.
+     */
+    fun onViewInflated(sceneId: Int, view: View) = Unit
 }
