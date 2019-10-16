@@ -2,8 +2,8 @@
 
 A simple scene manager for Android.<br>
 SceneManager allows to define scenes (sets of views) from your layout and switch between them using the animation of your choice.<br>
-- You can use the available transition animations (fade, translate X, translate Y, etc..) or create your own (See [AnimationAdapter]).
-- SceneManager can inflate your scenes on demand, this can be very useful to improve the performances of your app at launch.
+- You can use the available transition animations (fade, translate X, translate Y, etc..) or create your own (See [AnimationAdapter]).<br>
+- SceneManager can inflate your scenes on demand, this can be very useful to improve the performances of your app at launch.<br>
 
 ```groovy
 dependencies {
@@ -97,8 +97,8 @@ You are free to use it or not, but be sure that each identifier is unique.
 
 Define your scenes - Mix annotations and SceneCreator
 ==========
-You can also declare your scenes using @BuildScenes and create your own layout (and call _setContentView(...)_ or its equivalent).
-In this case you have to provide an unique identifier (sceneId) and the associated list of view ids for each scene.
+You can also declare your scenes using @BuildScenes and create your own layout (and call _setContentView(...)_ or its equivalent).<br>
+In this case you have to provide an unique identifier (sceneId) and the associated list of view ids for each scene.<br>
 
 ```kotlin
 @BuildScenes(
@@ -162,8 +162,8 @@ override fun onClick(v: View) {
 
 Inflate on Demand
 ------------------------
-Since the version 1.0.3, The SceneManager can inflate the views of a scene when this scene is displayed (when calling _SceneManager.scene(this, YOUR_SCENE_ID)_).
-This feature can improve the performmances of your app at launch.
+Since the version 1.0.3, The SceneManager can inflate the views of a scene when this scene is displayed (when calling _SceneManager.scene(this, YOUR_SCENE_ID)_).<br>
+This feature can improve the performmances of your app at launch.<br>
 
 * If you are using **SceneCreator** just add _.inflateOnDemand(true)_
 ```kotlin
@@ -182,8 +182,8 @@ SceneManager.create(
 )
 ```
 
-**!! If you have declared your own layout !!** (called _setContentView(...)_ or its equivalent)
-Then, you have to replace the views to be inflated on demand by _InflateOnDemandLayout_
+**!! If you have declared your own layout !!** (called _setContentView(...)_ or its equivalent)<br>
+Then, you have to replace the views to be inflated on demand by _InflateOnDemandLayout_<br>
 ```xml
         <io.pixsight.scenemanager.InflateOnDemandLayout
             android:id="@+id/sample_inflate_on_demand_my_scene"
@@ -195,7 +195,7 @@ The SceneManager will inflate the ressource provided by _app:layoutId_ and repla
 
 Release your scenes
 ------------------------
-Don't forget to release your scenes to avoid a memory leak.
+Don't forget to release to avoid a memory leak.
 
 ```kotlin
 ...
