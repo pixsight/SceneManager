@@ -25,6 +25,7 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
                 .add(Scene.SPINNER, R.id.activity_no_annotations_sample_main_content_another_view)
                 .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
                 .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
+                .addScene(Scene.UNKNOWN, Scene.MAIN)
                 .first(Scene.MAIN)
                 //.animation(SceneAnimations.TRANSLATE_X)
                 .listener(object : SceneListener {
@@ -58,7 +59,7 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.activity_no_annotations_sample_loader ->
                 SceneManager.scene(this, Scene.PLACEHOLDER)
             R.id.activity_no_annotations_sample_placeholder ->
-                SceneManager.scene(this, Scene.MAIN)
+                SceneManager.scene(this, Scene.UNKNOWN) // Scene.UNKNOWN is copied from Scene.MAIN
             else -> throw IllegalArgumentException("Invalid view id")
         }
     }

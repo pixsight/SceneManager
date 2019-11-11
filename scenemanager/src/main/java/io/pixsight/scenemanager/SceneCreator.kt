@@ -101,6 +101,20 @@ class SceneCreator private constructor(
         return add(sceneId, rootView.findViewById<View>(idRes))
     }
 
+    /**
+     * Copy the views already added to [fromSceneId] into [dstSceneId].
+     *
+     * @param dstSceneId the sceneId that will receive the views
+     * @param fromSceneId The scene id to take the views from.
+     * @return a [SceneCreator] for more configurations.
+     */
+    fun addScene(dstSceneId: Int, fromSceneId: Int): SceneCreator {
+        scenes
+            .filter { pair -> pair.first == fromSceneId }
+            .forEach { pair -> add(dstSceneId, pair.second) }
+        return this
+    }
+
     companion object {
 
         /**
