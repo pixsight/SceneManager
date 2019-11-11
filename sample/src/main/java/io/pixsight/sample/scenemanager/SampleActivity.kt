@@ -74,7 +74,11 @@ class SampleActivity : FragmentActivity(), View.OnClickListener {
             R.id.sample_switch_to_iod ->
                 SampleInflateOnDemandActivity.startActivity(this)
             R.id.sample_hide -> {
-                SceneManager.scene(this, SAMPLE_HIDDEN, true) // load a scene with a button so you can come back
+                SceneManager.scene(
+                    this,
+                    SAMPLE_HIDDEN,
+                    true
+                ) // load a scene with a button so you can come back
                 SceneManager.hide(this, true) // all is now hidden
                 SceneManager.restore(this, true) // restore to SAMPLE_HIDDEN
             }

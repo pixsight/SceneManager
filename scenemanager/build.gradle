@@ -114,7 +114,7 @@ bintray {
     pkg {
         repo = 'SceneManager'
         name = 'io.pixsight.scenemanager'
-        userOrg = 'pixsight'
+        userOrg = 'pixsight-io'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/pixsight/SceneManager.git'
         issueTrackerUrl = 'https://github.com/pixsight/SceneManager/issues'

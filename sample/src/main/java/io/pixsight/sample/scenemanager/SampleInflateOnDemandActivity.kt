@@ -18,18 +18,27 @@ import kotlinx.android.synthetic.main.spinner.*
 
 @BuildScenes(
     value = [
-        Scene(id = Scene.MAIN, viewIds = intArrayOf(
-            R.id.activity_no_annotations_sample_main_content,
-            R.id.activity_no_annotations_sample_main_content_another_view
-        )),
-        Scene(id = Scene.SPINNER, viewIds = intArrayOf(
-            R.id.activity_no_annotations_sample_main_content_another_view,
-            R.id.activity_no_annotations_sample_loader
+        Scene(
+            id = Scene.MAIN,
+            viewIds = intArrayOf(
+                R.id.activity_no_annotations_sample_main_content,
+                R.id.activity_no_annotations_sample_main_content_another_view
+            )
+        ),
+        Scene(
+            id = Scene.SPINNER,
+            viewIds = intArrayOf(
+                R.id.activity_no_annotations_sample_main_content_another_view,
+                R.id.activity_no_annotations_sample_loader
 
-        )),
-        Scene(id = Scene.PLACEHOLDER, viewIds = intArrayOf(
-            R.id.activity_no_annotations_sample_placeholder
-        ))
+            )
+        ),
+        Scene(
+            id = Scene.PLACEHOLDER,
+            viewIds = intArrayOf(
+                R.id.activity_no_annotations_sample_placeholder
+            )
+        )
     ],
     inflateOnDemand = true
 )
@@ -41,7 +50,7 @@ class SampleInflateOnDemandActivity : AppCompatActivity(), View.OnClickListener 
         SceneManager.create(
             SceneCreator.with(this)
                 .first(Scene.MAIN)
-                .animation(SceneAnimations.TRANSLATE_X)
+                .animation(SceneAnimations.TRANSLATE_Y)
                 .listener(object : SceneListener {
                     override fun onSceneHiding(sceneId: Int) {
                         Log.d("SceneListener", "onSceneHiding $sceneId")
@@ -57,6 +66,10 @@ class SampleInflateOnDemandActivity : AppCompatActivity(), View.OnClickListener 
 
                     override fun onSceneDisplayed(sceneId: Int) {
                         Log.d("SceneListener", "onSceneDisplayed $sceneId")
+                    }
+
+                    override fun onViewInflated(sceneId: Int, view: View) {
+                        Log.d("SceneListener", "onViewInflated $sceneId $view")
                     }
                 })
         )

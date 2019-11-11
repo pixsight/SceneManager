@@ -155,4 +155,10 @@ object SceneAnimations {
     @JvmStatic
     val TRANSLATE_X: AnimationAdapter<TranslateScenesParams> = TranslateXAnimationAdapter()
 
+    /**
+     * Translate the views like a [ViewPager].
+     */
+    @JvmStatic
+    val TRANSLATE_Y: AnimationAdapter<TranslateScenesParams> = TranslateYAnimationAdapter()
+
 }

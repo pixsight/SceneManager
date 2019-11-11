@@ -11,12 +11,12 @@ import androidx.core.util.forEach
 import androidx.core.view.isVisible
 import io.pixsight.scenemanager.SceneListener
 
-class TranslateXAnimationAdapter(
+open class TranslateXAnimationAdapter(
     private val interpolator: TimeInterpolator? = DecelerateInterpolator(),
     private val animationDuration: Int = 200
 ) : AnimationAdapter<TranslateScenesParams> {
 
-    override fun doChangeScene(
+    final override fun doChangeScene(
         scenesIdsToViews: SparseArray<MutableList<View>>,
         scenesParams: TranslateScenesParams?,
         sceneId: Int,
@@ -92,10 +92,10 @@ class TranslateXAnimationAdapter(
         notifyAnimationEnd(isNewScene, sceneId, listener)
     }
 
-    private fun doLeftToRight(isNewScene: Boolean,
-                              view: View,
-                              sceneId: Int,
-                              listener: SceneListener?) {
+    open fun doLeftToRight(isNewScene: Boolean,
+                           view: View,
+                           sceneId: Int,
+                           listener: SceneListener?) {
         view.clearAnimation()
         val parentWidth = (view.parent as ViewGroup).width
         if (isNewScene) {
@@ -128,7 +128,7 @@ class TranslateXAnimationAdapter(
         }
     }
 
-    private fun notifyAnimationEnd(isNewScene: Boolean, sceneId: Int, listener: SceneListener?) {
+    protected fun notifyAnimationEnd(isNewScene: Boolean, sceneId: Int, listener: SceneListener?) {
         if (isNewScene) {
             listener?.onSceneDisplayed(sceneId)
         } else {
@@ -136,10 +136,10 @@ class TranslateXAnimationAdapter(
         }
     }
 
-    private fun doRightToLeft(isNewScene: Boolean,
-                              view: View,
-                              sceneId: Int,
-                              listener: SceneListener?) {
+    open fun doRightToLeft(isNewScene: Boolean,
+                           view: View,
+                           sceneId: Int,
+                           listener: SceneListener?) {
         view.clearAnimation()
         val parentWidth = (view.parent as ViewGroup).width
         if (isNewScene) {
