@@ -69,16 +69,34 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
             }
 
             // do change scene
-            val show = viewSceneId == sceneId
+            showOrHideScene(
+                views,
+                viewSceneId == sceneId,
+                forceShowIfHidden,
+                listener,
+                scenesParams,
+                animate,
+                viewSceneId
+            )
+        }
+    }
 
-            views.forEach { view ->
-                if (!show && forceShowIfHidden != null && forceShowIfHidden.contains(view)) {
-                    return // Skip an forceShowIfHidden view
-                }
-                // notify the listener only on the last view
-                val endListener = if (views.last() == view) listener else null
-                showOrHideView(show, view, scenesParams, animate, viewSceneId, endListener)
+    private fun showOrHideScene(
+        views: MutableList<View>,
+        show: Boolean,
+        forceShowIfHidden: MutableList<View>?,
+        listener: SceneListener?,
+        scenesParams: T?,
+        animate: Boolean,
+        viewSceneId: Int
+    ) {
+        views.forEach { view ->
+            if (!show && forceShowIfHidden != null && forceShowIfHidden.contains(view)) {
+                return@forEach
             }
+            // notify the listener only on the last view
+            val endListener = if (views.last() == view) listener else null
+            showOrHideView(show, view, scenesParams, animate, viewSceneId, endListener)
         }
     }
 

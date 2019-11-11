@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import io.pixsight.scenemanager.SceneCreator
 import io.pixsight.scenemanager.SceneListener
 import io.pixsight.scenemanager.SceneManager
-import io.pixsight.scenemanager.animations.SceneAnimations
 import io.pixsight.scenemanager.annotations.Scene
 import kotlinx.android.synthetic.main.activity_no_annotations_sample.*
 
@@ -18,6 +17,7 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_no_annotations_sample)
+
         SceneManager.create(
             SceneCreator.with(this)
                 .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
@@ -26,7 +26,7 @@ class SampleNoAnnotationsActivity : AppCompatActivity(), View.OnClickListener {
                 .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
                 .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                 .first(Scene.MAIN)
-                .animation(SceneAnimations.TRANSLATE_X)
+                //.animation(SceneAnimations.TRANSLATE_X)
                 .listener(object : SceneListener {
                     override fun onSceneHiding(sceneId: Int) {
                         Log.d("SceneListener", "onSceneHiding $sceneId")
