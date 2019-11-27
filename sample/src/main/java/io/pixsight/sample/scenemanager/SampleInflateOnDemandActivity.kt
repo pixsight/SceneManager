@@ -3,6 +3,7 @@ package io.pixsight.sample.scenemanager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -49,8 +50,8 @@ class SampleInflateOnDemandActivity : AppCompatActivity(), View.OnClickListener 
         setContentView(R.layout.activity_inflate_on_demand_sample)
         SceneManager.create(
             SceneCreator.with(this)
-                .first(Scene.MAIN)
-                .animation(SceneAnimations.TRANSLATE_Y)
+                .first(Scene.PLACEHOLDER)
+                .animation(SceneAnimations.TRANSLATE_X)
                 .listener(object : SceneListener {
                     override fun onSceneHiding(sceneId: Int) {
                         Log.d("SceneListener", "onSceneHiding $sceneId")
@@ -70,6 +71,7 @@ class SampleInflateOnDemandActivity : AppCompatActivity(), View.OnClickListener 
 
                     override fun onViewInflated(sceneId: Int, view: View) {
                         Log.d("SceneListener", "onViewInflated $sceneId $view")
+                        bindListeners()
                     }
                 })
         )
@@ -89,12 +91,15 @@ class SampleInflateOnDemandActivity : AppCompatActivity(), View.OnClickListener 
                 SceneManager.scene(this, Scene.SPINNER)
             R.id.go_to_main_from_loader ->
                 SceneManager.scene(this, Scene.PLACEHOLDER)
-            R.id.go_to_main_from_placeholder ->
-                SceneManager.scene(this, Scene.MAIN)
+            R.id.go_to_main_from_placeholder -> {
+                SceneManager.scene(this, Scene.SPINNER)
+                Handler().postDelayed(
+                    { SceneManager.scene(this, Scene.MAIN) },
+                    150
+                )
+            }
             else -> throw IllegalArgumentException("Invalid view id")
         }
-
-        bindListeners()
     }
 
     override fun onDestroy() {

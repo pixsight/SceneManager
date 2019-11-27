@@ -27,7 +27,7 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
      * @param sceneId The sceneId of the view to animate
      * @param listener The listener to pass to [notifyAnimationEnd] once the animation has ended
      */
-    internal abstract fun showView(view: View,
+    abstract fun showView(view: View,
                                    params: T?,
                                    animate: Boolean,
                                    sceneId: Int,
@@ -43,7 +43,7 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
      * @param sceneId The sceneId of the view to animate
      * @param listener The listener to pass to [notifyAnimationEnd] once the animation has ended
      */
-    internal abstract fun hideView(view: View,
+    abstract fun hideView(view: View,
                                    params: T?,
                                    animate: Boolean,
                                    sceneId: Int,
@@ -102,16 +102,17 @@ abstract class SimpleAnimationAdapter<T : ScenesParams> : AnimationAdapter<T> {
 
     private fun showOrHideView(
         show: Boolean,
-        views: View,
+        view: View,
         scenesParams: T?,
         animate: Boolean,
         sceneId: Int,
         listener: SceneListener?
     ) {
+        view.clearAnimation()
         if (show) {
-            showView(views, scenesParams, animate, sceneId, listener)
+            showView(view, scenesParams, animate, sceneId, listener)
         } else {
-            hideView(views, scenesParams, animate, sceneId, listener)
+            hideView(view, scenesParams, animate, sceneId, listener)
         }
     }
 

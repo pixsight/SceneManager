@@ -10,10 +10,12 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.util.forEach
 import androidx.core.view.isVisible
 import io.pixsight.scenemanager.SceneListener
+import io.pixsight.scenemanager.annotations.Scene
 
 open class TranslateXAnimationAdapter(
     private val interpolator: TimeInterpolator? = DecelerateInterpolator(),
-    private val animationDuration: Int = 200
+    private val animationDuration: Int = 200,
+    private val hideRtl: Boolean = true
 ) : AnimationAdapter<TranslateScenesParams> {
 
     final override fun doChangeScene(
@@ -62,6 +64,7 @@ open class TranslateXAnimationAdapter(
             // If a view is in both scene, then we shouldn't animate
             val animatedViews = views.filter {
                 !(scenesIdsToViews[scenesParams.lastSceneId].contains(it) &&
+                        sceneId != Scene.NONE &&
                         scenesIdsToViews[sceneId].contains(it))
             }
             animatedViews.forEach { view ->
@@ -190,6 +193,6 @@ open class TranslateXAnimationAdapter(
     }
 
     override fun generateScenesParams(scenes: SparseArray<MutableList<View>>): TranslateScenesParams? {
-        return TranslateScenesParams(scenes)
+        return TranslateScenesParams(scenes, hideRtl)
     }
 }

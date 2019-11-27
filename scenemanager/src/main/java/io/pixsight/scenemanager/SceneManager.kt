@@ -484,15 +484,6 @@ object SceneManager {
         scenesIdsToViews: SparseArray<MutableList<View>>,
         sceneId: Int,
         animate: Boolean) {
-        // Cancel all pending animations
-        scenesIdsToViews.forEach { _, views ->
-            views.forEach { view ->
-                view.animation?.cancel()
-                view.animate().setListener(null).cancel()
-                view.clearAnimation()
-            }
-        }
-
         // start animations
         meta.sceneAnimationAdapter.doChangeScene(
             scenesIdsToViews,

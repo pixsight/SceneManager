@@ -74,7 +74,7 @@ object SceneAnimations {
                     .alpha(0f)
                     .setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            view.visibility = View.INVISIBLE
+                            view.visibility = View.GONE
                         }
 
                         override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
@@ -160,5 +160,4 @@ object SceneAnimations {
      */
     @JvmStatic
     val TRANSLATE_Y: AnimationAdapter<TranslateScenesParams> = TranslateYAnimationAdapter()
-
 }
